@@ -60,9 +60,8 @@ const CTASection = () => {
                 Ready to <span className="gradient-text">Grow</span> Your Business?
               </h2>
               
-              <p className="text-xl lg:text-2xl text-muted-foreground mb-8 leading-relaxed">
-                Join hundreds of successful businesses that trust AD Vibes with their digital marketing. 
-                Let's create your success story together.
+              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Join hundreds of successful businesses that trust AD~VIBES with their digital marketing.
               </p>
 
               {/* Features List */}

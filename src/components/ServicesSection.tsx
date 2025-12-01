@@ -1,42 +1,49 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const ServicesSection = () => {
+  const navigate = useNavigate();
+
+  const handleScheduleConsultation = () => {
+    navigate('/contact');
+  };
+
   const services = [
     {
-      icon: '🔍',
-      title: 'SEO Optimization',
-      description: 'Boost your search engine rankings with our proven SEO strategies and technical optimization.',
-      features: ['Keyword Research', 'Technical SEO', 'Content Strategy']
+      icon: '🎬',
+      title: 'Corporate Documentaries',
+      description: 'Showcase your brand story and achievements through compelling documentary-style videos that connect with your audience.',
+      features: ['Brand Storytelling', 'Company Culture', 'Achievement Highlights']
+    },
+    {
+      icon: '📺',
+      title: 'Ad Films',
+      description: 'Engaging advertisements that amplify your message and drive action from your target audience.',
+      features: ['Creative Concepts', 'High Production Value', 'Strategic Messaging']
     },
     {
       icon: '📱',
-      title: 'Social Media Marketing',
-      description: 'Engage your audience across all platforms with compelling content and strategic campaigns.',
-      features: ['Content Creation', 'Community Management', 'Paid Advertising']
+      title: 'Video Marketing Reels',
+      description: 'Eye-catching reels for social media impact that boost engagement and brand visibility.',
+      features: ['Social Media Optimization', 'Trending Content', 'Viral Potential']
     },
     {
-      icon: '💰',
-      title: 'PPC Advertising',
-      description: 'Maximize your ROI with targeted pay-per-click campaigns across Google and social platforms.',
-      features: ['Google Ads', 'Facebook Ads', 'Campaign Optimization']
+      icon: '✨',
+      title: 'Motion Design',
+      description: 'Animated visuals that captivate and bring your content to life with dynamic motion graphics.',
+      features: ['2D Animation', 'Motion Graphics', 'Visual Effects']
     },
     {
-      icon: '🎨',
-      title: 'Brand Design',
-      description: 'Create a memorable brand identity that resonates with your target audience.',
-      features: ['Logo Design', 'Brand Guidelines', 'Visual Identity']
+      icon: '📸',
+      title: 'Photography',
+      description: 'High-quality brand and product images that showcase your offerings in the best possible light.',
+      features: ['Product Photography', 'Corporate Events', 'Brand Photography']
     },
     {
-      icon: '💻',
-      title: 'Web Development',
-      description: 'Build fast, responsive websites that convert visitors into customers.',
-      features: ['Responsive Design', 'E-commerce', 'Performance Optimization']
-    },
-    {
-      icon: '📝',
-      title: 'Content Marketing',
-      description: 'Drive engagement with high-quality content that tells your brand story.',
-      features: ['Blog Writing', 'Video Content', 'Email Marketing']
+      icon: '🎤',
+      title: 'Corporate Interviews',
+      description: 'Insightful interviews that humanize your brand and build trust with your audience.',
+      features: ['Executive Interviews', 'Employee Stories', 'Customer Testimonials']
     }
   ];
 
@@ -70,7 +77,7 @@ const ServicesSection = () => {
             Our <span className="gradient-text">Services</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Comprehensive digital marketing solutions designed to accelerate your business growth
+            Comprehensive video production and media solutions designed to elevate your brand's visual presence
           </p>
         </motion.div>
 
@@ -135,15 +142,16 @@ const ServicesSection = () => {
         >
           <div className="glass-card p-8 max-w-2xl mx-auto">
             <h3 className="text-3xl font-poppins font-bold mb-4">
-              Ready to <span className="gradient-text">Transform</span> Your Business?
+              Ready to <span className="gradient-text">Transform</span> Your Brand?
             </h3>
             <p className="text-muted-foreground mb-6">
-              Let's discuss how our services can help you achieve your marketing goals
+              Let's discuss how our video production services can help you achieve your marketing goals
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="btn-hero-primary"
+              onClick={handleScheduleConsultation}
             >
               Schedule a Consultation
             </motion.button>

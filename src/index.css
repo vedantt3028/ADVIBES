@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AD Vibes Design System - Premium Glassmorphism Theme */
+/* AD~VIBES Design System - Premium Glassmorphism Theme */
 
 @layer base {
   :root {
@@ -141,6 +141,15 @@
   .btn-hero-secondary {
     @apply px-8 py-4 rounded-xl font-semibold text-primary transition-all duration-300 glass-button;
   }
+
+  /* Additional utility classes for new sections */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .rounded-glass {
+    border-radius: var(--radius-glass);
+  }
 }
 
 @layer utilities {
@@ -155,6 +164,21 @@
 
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Line clamp utilities for text truncation */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   @keyframes fade-in {

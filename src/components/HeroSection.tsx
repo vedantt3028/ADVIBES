@@ -1,10 +1,17 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import heroIllustration from '@/assets/hero-illustration.jpg';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleSeeOurWork = () => {
+    navigate('/portfolio');
+  };
+
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
@@ -45,12 +52,12 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            className="flex justify-center lg:justify-start"
           >
-            <Button className="btn-hero-primary text-lg px-8 py-6">
-              Get a Free Quote
-            </Button>
-            <Button className="btn-hero-secondary text-lg px-8 py-6">
+            <Button 
+              className="btn-hero-secondary text-lg px-8 py-6"
+              onClick={handleSeeOurWork}
+            >
               See Our Work
             </Button>
           </motion.div>
@@ -63,8 +70,8 @@ const HeroSection = () => {
             className="grid grid-cols-3 gap-8 mt-12 pt-8 border-t border-white/20"
           >
             {[
-              { number: '500+', label: 'Happy Clients' },
-              { number: '1200+', label: 'Projects Done' },
+              { number: '50+', label: 'Happy Clients' },
+              { number: '100+', label: 'Projects Done' },
               { number: '98%', label: 'Success Rate' }
             ].map((stat, index) => (
               <div key={index} className="text-center lg:text-left">
