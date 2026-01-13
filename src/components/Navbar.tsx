@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useLocation } from 'react-router-dom';
+import logo from '@/assets/logo.svg';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -50,23 +51,21 @@ const Navbar = () => {
         }`}
       >
         <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between relative">
             {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="flex items-center space-x-2 cursor-pointer"
+              className="flex items-center space-x-1 cursor-pointer flex-shrink-0"
               onClick={() => navigate('/')}
             >
-              <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-xl">AV</span>
-              </div>
-              <span className="text-2xl font-poppins font-bold gradient-text">
+              <img src={logo} alt="Company Logo" className="h-12 w-12 object-contain flex-shrink-0" />
+              <span className="text-2xl font-display font-bold gradient-text leading-tight">
                 AD~VIBES
               </span>
             </motion.div>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center space-x-8">
+            {/* Desktop Navigation Links - Centered */}
+            <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
               {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item, index) => (
                 <motion.button
                   key={item}
@@ -89,7 +88,7 @@ const Navbar = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
-              className="hidden md:block"
+              className="hidden md:block flex-shrink-0"
             >
               <Button 
                 className="btn-hero-primary"
@@ -149,11 +148,9 @@ const Navbar = () => {
               <div className="flex flex-col h-full">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                      <span className="text-white font-bold text-sm">AV</span>
-                    </div>
-                    <span className="text-lg font-poppins font-bold gradient-text">
+                  <div className="flex items-center space-x-1">
+                    <img src={logo} alt="Company Logo" className="h-10 w-10 object-contain flex-shrink-0" />
+                    <span className="text-lg font-display font-bold gradient-text leading-tight">
                       AD~VIBES
                     </span>
                   </div>

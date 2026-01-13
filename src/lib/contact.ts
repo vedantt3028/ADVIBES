@@ -23,6 +23,8 @@ export const footerContact = {
 export const socialLinks = {
   facebook: 'https://facebook.com/advibes',
   instagram: 'https://instagram.com/advibes',
+  youtube: 'https://youtube.com',
+  linkedin: 'https://linkedin.com',
   email: () => `mailto:${contactInfo.email}`,
 };
 

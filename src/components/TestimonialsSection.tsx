@@ -55,7 +55,7 @@ const TestimonialsSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-6xl font-poppins font-bold mb-6">
+          <h2 className="text-4xl lg:text-6xl font-display font-bold mb-6">
             What Our <span className="gradient-text">Clients Say</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -77,8 +77,11 @@ const TestimonialsSection = () => {
               variants={itemVariants}
               whileHover={{ 
                 y: -10,
-                transition: { duration: 0.3 }
+                rotateX: 2,
+                rotateY: -2,
+                transition: { type: "spring", stiffness: 180, damping: 16 }
               }}
+              style={{ transformStyle: "preserve-3d" }}
             >
               <Card className="h-full border-0 shadow-lg bg-white/50 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300">
                 <CardContent className="p-8">

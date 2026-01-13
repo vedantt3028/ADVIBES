@@ -1,5 +1,35 @@
 import type { Config } from "tailwindcss";
 
+// Flatten color palette helper
+function flattenColorPalette(colors: any): Record<string, string> {
+	const result: Record<string, string> = {};
+	
+	function flatten(obj: any, prefix = '') {
+		for (const key in obj) {
+			if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+				flatten(obj[key], prefix ? `${prefix}-${key}` : key);
+			} else {
+				result[prefix ? `${prefix}-${key}` : key] = obj[key];
+			}
+		}
+	}
+	
+	flatten(colors);
+	return result;
+}
+
+// Plugin to add color variables
+function addVariablesForColors({ addBase, theme }: any) {
+	let allColors = flattenColorPalette(theme("colors"));
+	let newVars = Object.fromEntries(
+		Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+	);
+
+	addBase({
+		":root": newVars,
+	});
+}
+
 export default {
 	darkMode: ["class"],
 	content: [
@@ -19,8 +49,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				inter: ['Inter', 'sans-serif'],
-				poppins: ['Poppins', 'sans-serif'],
+				sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+				display: ['Playfair Display', 'Georgia', 'serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -73,12 +103,14 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-card': 'var(--gradient-card)'
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-accent': 'var(--gradient-accent)'
 			},
 			boxShadow: {
 				'glass': 'var(--shadow-glass)',
 				'glow': 'var(--shadow-glow)',
-				'soft': 'var(--shadow-soft)'
+				'soft': 'var(--shadow-soft)',
+				'editorial': 'var(--shadow-editorial)'
 			},
 			keyframes: {
 				'accordion-down': {
@@ -96,13 +128,22 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				aurora: {
+					from: {
+						backgroundPosition: "50% 50%, 50% 50%",
+					},
+					to: {
+						backgroundPosition: "350% 50%, 350% 50%",
+					},
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				aurora: "aurora 60s linear infinite",
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), addVariablesForColors],
 } satisfies Config;

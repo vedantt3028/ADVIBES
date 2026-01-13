@@ -219,50 +219,53 @@ const ContactSection = () => {
               className="text-center"
             >
               <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-                             <div className="flex justify-center space-x-4">
-                 {[
-                   { 
-                     name: 'Facebook', 
-                     url: socialLinks.facebook, 
-                     color: 'from-blue-500 to-blue-600',
-                     icon: (
-                       <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                       </svg>
-                     )
-                   },
-                   { 
-                     name: 'Instagram', 
-                     url: socialLinks.instagram, 
-                     color: 'from-pink-500 to-purple-600',
-                     icon: (
-                       <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                         <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.418-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.875 1.418 2.026 1.418 3.323s-.49 2.448-1.418 3.323c-.875.807-2.026 1.297-3.323 1.297zm7.718-1.297c-.875.807-2.026 1.297-3.323 1.297s-2.448-.49-3.323-1.297c-.928-.875-1.418-2.026-1.418-3.323s.49-2.448 1.418-3.323c.875-.807 2.026-1.297 3.323-1.297s2.448.49 3.323 1.297c.928.875 1.418 2.026 1.418 3.323s-.49 2.448-1.418 3.323z"/>
-                       </svg>
-                     )
-                   },
-                   { 
-                     name: 'Email', 
-                     url: socialLinks.email(), 
-                     color: 'from-green-500 to-green-600',
-                     icon: (
-                       <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                         <path d="M0 3v18h24V3H0zm21.518 2L12 12.713 2.482 5h19.036zM2 19V7.183l10 8.104 10-8.104V19H2z"/>
-                       </svg>
-                     )
-                   }
-                 ].map((social) => (
-                   <motion.div
-                     key={social.name}
-                     whileHover={{ scale: 1.1, y: -2 }}
-                     className={`w-12 h-12 bg-gradient-to-r ${social.color} rounded-full flex items-center justify-center cursor-pointer hover:shadow-lg transition-all duration-300`}
-                     onClick={() => window.open(social.url, '_blank')}
-                     title={social.name}
-                   >
-                     {social.icon}
-                   </motion.div>
-                 ))}
-               </div>
+              <div className="flex flex-wrap justify-center gap-3">
+                {[
+                  { name: 'Instagram', url: socialLinks.instagram, className: 'social-instagram', icon: 'instagram' },
+                  { name: 'YouTube', url: socialLinks.youtube, className: 'social-youtube', icon: 'youtube' },
+                  { name: 'Facebook', url: socialLinks.facebook, className: 'social-facebook', icon: 'facebook' },
+                  { name: 'LinkedIn', url: socialLinks.linkedin, className: 'social-linkedin', icon: 'linkedin' },
+                ].map((item) => (
+                  <button
+                    key={item.name}
+                    onClick={() => window.open(item.url, '_blank')}
+                    className={`social-btn ${item.className}`}
+                    title={item.name}
+                    aria-label={item.name}
+                  >
+                    <span className="icon">
+                      {item.icon === 'instagram' && (
+                        <svg
+                          className="w-6 h-6"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="2" fill="none"/>
+                          <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="2" fill="none"/>
+                          <circle cx="17" cy="7" r="1.5" fill="white"/>
+                        </svg>
+                      )}
+                      {item.icon === 'youtube' && (
+                        <svg className="w-5 h-5" viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="white" d="M549.655 148.28c-6.281-23.64-24.041-42.396-47.655-48.685C462.923 85 288 85 288 85S113.077 85 74 99.595c-23.614 6.289-41.374 25.045-47.655 48.685-12.614 47.328-12.614 147.717-12.614 147.717s0 100.39 12.614 147.718c6.281 23.64 24.041 42.396 47.655 48.684C113.077 427 288 427 288 427s174.923 0 214-14.595c23.614-6.289 41.374-25.045 47.655-48.685 12.614-47.328 12.614-147.718 12.614-147.718s0-100.389-12.614-147.717zM240 336V176l144 80-144 80z"/>
+                        </svg>
+                      )}
+                      {item.icon === 'facebook' && (
+                        <svg className="w-5 h-5" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="white" d="M279.14 288l14.22-92.66h-88.91V129.08c0-25.35 12.42-50.06 52.24-50.06H296V6.26S259.5 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72V195.3H22.89V288h81.39v224h100.17V288z"/>
+                        </svg>
+                      )}
+                      {item.icon === 'linkedin' && (
+                        <svg className="w-5 h-5" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                          <path fill="white" d="M100.28 448H7.4V148.9h92.88zm-46.44-341a53.79 53.79 0 1 1 53.79-53.8 53.8 53.8 0 0 1-53.8 53.8zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.24-79.2-48.3 0-55.7 37.7-55.7 76.6V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.2 87.8-48.2 94 0 111.2 61.9 111.2 142.3V448z"/>
+                        </svg>
+                      )}
+                    </span>
+                    <span className="text">{item.name}</span>
+                  </button>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
         </div>

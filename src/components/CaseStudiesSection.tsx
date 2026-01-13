@@ -42,7 +42,7 @@ const CaseStudiesSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-6xl font-poppins font-bold mb-6">
+          <h2 className="text-4xl lg:text-6xl font-display font-bold mb-6">
             Success <span className="gradient-text">Stories</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -60,11 +60,13 @@ const CaseStudiesSection = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ 
                 y: -10,
-                rotateY: 5,
-                transition: { duration: 0.3 }
+                rotateY: 6,
+                rotateX: 2,
+                transition: { type: "spring", stiffness: 180, damping: 16 }
               }}
               viewport={{ once: true }}
               className="group perspective-1000"
+              style={{ transformStyle: "preserve-3d" }}
             >
               <div className="glass-card p-8 h-full relative overflow-hidden transition-all duration-300 group-hover:shadow-glow">
                 {/* Background Gradient */}
@@ -77,7 +79,7 @@ const CaseStudiesSection = () => {
 
                 {/* Metric */}
                 <div className="mb-4">
-                  <div className="text-4xl font-poppins font-bold gradient-text mb-2">
+                  <div className="text-4xl font-display font-bold gradient-text mb-2">
                     {study.metric}
                   </div>
                   <div className="text-lg font-semibold text-foreground">
@@ -86,7 +88,7 @@ const CaseStudiesSection = () => {
                 </div>
 
                 {/* Title & Client */}
-                <h3 className="text-xl font-poppins font-semibold mb-2 text-foreground">
+                <h3 className="text-xl font-display font-semibold mb-2 text-foreground">
                   {study.title}
                 </h3>
                 <p className="text-primary font-medium mb-4">

@@ -9,12 +9,12 @@ const Services = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <main>
         <div className="pt-20">
           <div className="container mx-auto px-6 py-16">
-            <h1 className="text-5xl lg:text-6xl font-poppins font-bold text-center mb-8">
+            <h1 className="text-5xl lg:text-6xl font-display font-bold text-center mb-8">
               Our <span className="gradient-text">Services</span>
             </h1>
             <p className="text-xl text-muted-foreground text-center mb-16 max-w-3xl mx-auto">
@@ -29,7 +29,7 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                   <span className="text-2xl">🎬</span>
                 </div>
-                <h3 className="text-xl font-poppins font-bold mb-3">Corporate Documentaries</h3>
+                <h3 className="text-xl font-display font-bold mb-3">Corporate Documentaries</h3>
                 <p className="text-muted-foreground">
                   Showcase your brand story and achievements through compelling documentary-style videos that connect with your audience.
                 </p>
@@ -39,7 +39,7 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                   <span className="text-2xl">📺</span>
                 </div>
-                <h3 className="text-xl font-poppins font-bold mb-3">Ad Films</h3>
+                <h3 className="text-xl font-display font-bold mb-3">Ad Films</h3>
                 <p className="text-muted-foreground">
                   Engaging advertisements that amplify your message and drive action from your target audience.
                 </p>
@@ -49,7 +49,7 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                   <span className="text-2xl">📱</span>
                 </div>
-                <h3 className="text-xl font-poppins font-bold mb-3">Video Marketing Reels</h3>
+                <h3 className="text-xl font-display font-bold mb-3">Video Marketing Reels</h3>
                 <p className="text-muted-foreground">
                   Eye-catching reels for social media impact that boost engagement and brand visibility.
                 </p>
@@ -59,7 +59,7 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                   <span className="text-2xl">✨</span>
                 </div>
-                <h3 className="text-xl font-poppins font-bold mb-3">Motion Design</h3>
+                <h3 className="text-xl font-display font-bold mb-3">Motion Design</h3>
                 <p className="text-muted-foreground">
                   Animated visuals that captivate and bring your content to life with dynamic motion graphics.
                 </p>
@@ -69,7 +69,7 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                   <span className="text-2xl">📸</span>
                 </div>
-                <h3 className="text-xl font-poppins font-bold mb-3">Photography</h3>
+                <h3 className="text-xl font-display font-bold mb-3">Photography</h3>
                 <p className="text-muted-foreground">
                   High-quality brand and product images that showcase your offerings in the best possible light.
                 </p>
@@ -79,7 +79,7 @@ const Services = () => {
                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mb-4">
                   <span className="text-2xl">🎤</span>
                 </div>
-                <h3 className="text-xl font-poppins font-bold mb-3">Corporate Interviews</h3>
+                <h3 className="text-xl font-display font-bold mb-3">Corporate Interviews</h3>
                 <p className="text-muted-foreground">
                   Insightful interviews that humanize your brand and build trust with your audience.
                 </p>

@@ -56,7 +56,7 @@ const CTASection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl lg:text-6xl font-poppins font-bold mb-6">
+              <h2 className="text-4xl lg:text-6xl font-display font-bold mb-6">
                 Ready to <span className="gradient-text">Grow</span> Your Business?
               </h2>
               
@@ -119,15 +119,15 @@ const CTASection = () => {
               >
                 <div className="grid grid-cols-3 gap-8 text-center">
                   <div>
-                    <div className="text-2xl font-poppins font-bold gradient-text">24/7</div>
+                    <div className="text-2xl font-display font-bold gradient-text">24/7</div>
                     <div className="text-sm text-muted-foreground">Support</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-poppins font-bold gradient-text">30-Day</div>
+                    <div className="text-2xl font-display font-bold gradient-text">30-Day</div>
                     <div className="text-sm text-muted-foreground">Guarantee</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-poppins font-bold gradient-text">Free</div>
+                    <div className="text-2xl font-display font-bold gradient-text">Free</div>
                     <div className="text-sm text-muted-foreground">Consultation</div>
                   </div>
                 </div>

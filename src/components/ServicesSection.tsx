@@ -73,7 +73,7 @@ const ServicesSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-6xl font-poppins font-bold mb-6">
+          <h2 className="text-4xl lg:text-6xl font-display font-bold mb-6">
             Our <span className="gradient-text">Services</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -95,9 +95,12 @@ const ServicesSection = () => {
               variants={itemVariants}
               whileHover={{ 
                 y: -10,
-                transition: { duration: 0.3 }
+                rotateX: 2,
+                rotateY: -2,
+                transition: { type: "spring", stiffness: 180, damping: 16 }
               }}
               className="group"
+              style={{ transformStyle: "preserve-3d" }}
             >
               <div className="glass-card p-8 h-full transition-all duration-300 group-hover:shadow-glow">
                 {/* Icon */}
@@ -106,7 +109,7 @@ const ServicesSection = () => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-2xl font-poppins font-semibold mb-4 text-foreground">
+                <h3 className="text-2xl font-display font-semibold mb-4 text-foreground">
                   {service.title}
                 </h3>
 
@@ -141,7 +144,7 @@ const ServicesSection = () => {
           className="text-center mt-16"
         >
           <div className="glass-card p-8 max-w-2xl mx-auto">
-            <h3 className="text-3xl font-poppins font-bold mb-4">
+            <h3 className="text-3xl font-display font-bold mb-4">
               Ready to <span className="gradient-text">Transform</span> Your Brand?
             </h3>
             <p className="text-muted-foreground mb-6">

@@ -55,13 +55,13 @@ const ClientLogos = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl lg:text-4xl font-poppins font-bold text-center mb-4">
+          <h2 className="text-3xl lg:text-4xl font-display font-bold text-center mb-4">
             Our Clients
           </h2>
         </motion.div>
 
         {/* Logos Container with Continuous Scrolling */}
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-visible">
           <motion.div
             animate={{ x: [-1000, 0] }}
             transition={{
@@ -75,14 +75,15 @@ const ClientLogos = () => {
             {clientLogos.map((client, index) => (
               <motion.div
                 key={index}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.08, y: -4 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="flex-shrink-0 group"
               >
-                <div className="glass-card p-6 min-w-[120px] h-16 flex items-center justify-center transition-all duration-300 group-hover:shadow-glow grayscale group-hover:grayscale-0">
+                <div className="bg-white p-6 min-w-[180px] h-[88px] flex items-center justify-center rounded-lg border border-primary/20 ring-1 ring-primary/10 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-600 ease-out group-hover:border-primary/35 group-hover:ring-primary/20 group-hover:shadow-[0_0_30px_rgba(157,43,92,0.28),0_0_70px_rgba(157,43,92,0.18),0_0_120px_rgba(157,43,92,0.1)]">
                   <img
                     src={client.logo}
                     alt={`${client.name} logo`}
-                    className="w-12 h-12 object-contain filter group-hover:brightness-110 transition-all duration-300"
+                    className="w-[72px] h-[72px] object-contain filter group-hover:brightness-110 transition-all duration-500 ease-out opacity-80 group-hover:opacity-100"
                   />
                 </div>
               </motion.div>
@@ -92,14 +93,15 @@ const ClientLogos = () => {
             {clientLogos.map((client, index) => (
               <motion.div
                 key={`duplicate-${index}`}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.08, y: -4 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="flex-shrink-0 group"
               >
-                <div className="glass-card p-6 min-w-[120px] h-16 flex items-center justify-center transition-all duration-300 group-hover:shadow-glow grayscale group-hover:grayscale-0">
+                <div className="bg-white p-6 min-w-[180px] h-[88px] flex items-center justify-center rounded-lg border border-primary/20 ring-1 ring-primary/10 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-600 ease-out group-hover:border-primary/35 group-hover:ring-primary/20 group-hover:shadow-[0_0_30px_rgba(157,43,92,0.28),0_0_70px_rgba(157,43,92,0.18),0_0_120px_rgba(157,43,92,0.1)]">
                   <img
                     src={client.logo}
                     alt={`${client.name} logo`}
-                    className="w-12 h-12 object-contain filter group-hover:brightness-110 transition-all duration-300"
+                    className="w-[72px] h-[72px] object-contain filter group-hover:brightness-110 transition-all duration-500 ease-out opacity-80 group-hover:opacity-100"
                   />
                 </div>
               </motion.div>

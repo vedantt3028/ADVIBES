@@ -9,12 +9,12 @@ const About = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <main>
         <div className="pt-20">
           <div className="container mx-auto px-6 py-16">
-            <h1 className="text-5xl lg:text-6xl font-poppins font-bold text-center mb-8">
+            <h1 className="text-5xl lg:text-6xl font-display font-bold text-center mb-8">
               About <span className="gradient-text">Us</span>
             </h1>
             <p className="text-xl text-muted-foreground text-center mb-16 max-w-3xl mx-auto">
@@ -26,7 +26,7 @@ const About = () => {
           <div className="container mx-auto px-6 pb-16">
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
               <div>
-                <h2 className="text-3xl lg:text-4xl font-poppins font-bold mb-6">
+                <h2 className="text-3xl lg:text-4xl font-display font-bold mb-6">
                   We're a team of passionate digital marketers
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
@@ -37,11 +37,11 @@ const About = () => {
                 </p>
                 <div className="grid grid-cols-2 gap-6 mt-8">
                   <div className="text-center">
-                    <div className="text-3xl font-poppins font-bold gradient-text mb-2">50+</div>
+                    <div className="text-3xl font-display font-bold gradient-text mb-2">50+</div>
                     <div className="text-sm text-muted-foreground">Happy Clients</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-poppins font-bold gradient-text mb-2">100+</div>
+                    <div className="text-3xl font-display font-bold gradient-text mb-2">100+</div>
                     <div className="text-sm text-muted-foreground">Projects Done</div>
                   </div>
                 </div>
@@ -57,7 +57,7 @@ const About = () => {
 
             {/* Our Story Section */}
             <div className="glass-card p-8 mb-16">
-              <h2 className="text-3xl lg:text-4xl font-poppins font-bold mb-8 text-center">
+              <h2 className="text-3xl lg:text-4xl font-display font-bold mb-8 text-center">
                 Our <span className="gradient-text">Story</span>
               </h2>
               <div className="max-w-4xl mx-auto space-y-6">

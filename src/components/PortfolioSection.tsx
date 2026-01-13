@@ -6,61 +6,53 @@ const PortfolioSection = () => {
   const projects = [
     {
       id: 1,
-      title: 'E-Commerce Platform',
-      category: 'Web Development',
-      image: '🛒',
-      description: 'A modern e-commerce platform with advanced features like AI-powered recommendations and seamless payment integration.',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
-      link: '#'
+      title: 'E-commerce Brand',
+      icon: '🏢',
+      description: 'Complete digital transformation for a leading retail brand, increasing online sales by 300%.',
+      tags: ['Social Media', 'PPC'],
+      gradient: 'from-primary/20 to-secondary/20'
     },
     {
       id: 2,
-      title: 'Mobile Banking App',
-      category: 'Mobile Development',
-      image: '🏦',
-      description: 'Secure and user-friendly mobile banking application with biometric authentication and real-time notifications.',
-      technologies: ['React Native', 'Firebase', 'Redux', 'TypeScript'],
-      link: '#'
+      title: 'SaaS Platform',
+      icon: '💼',
+      description: 'Lead generation campaign that resulted in 50+ qualified leads and 25% conversion rate.',
+      tags: ['Content Marketing', 'SEO'],
+      gradient: 'from-secondary/20 to-accent/20'
     },
     {
       id: 3,
-      title: 'AI Chatbot Platform',
-      category: 'AI/ML',
-      image: '🤖',
-      description: 'Intelligent chatbot platform that handles customer queries and provides personalized support.',
-      technologies: ['Python', 'TensorFlow', 'FastAPI', 'PostgreSQL'],
-      link: '#'
+      title: 'Healthcare Startup',
+      icon: '🎯',
+      description: 'Brand awareness campaign that increased social media engagement by 400% in 6 months.',
+      tags: ['Branding', 'Social Media'],
+      gradient: 'from-accent/20 to-primary/20'
     },
     {
       id: 4,
-      title: 'Real Estate Dashboard',
-      category: 'Web Development',
-      image: '🏠',
-      description: 'Comprehensive dashboard for real estate management with analytics and property tracking.',
-      technologies: ['Vue.js', 'Laravel', 'MySQL', 'Chart.js'],
-      link: '#'
+      title: 'Automotive Company',
+      icon: '🚗',
+      description: 'Local SEO campaign that improved search rankings and increased dealership visits by 150%.',
+      tags: ['Local SEO', 'Google Ads'],
+      gradient: 'from-primary/20 to-secondary/20'
     },
     {
       id: 5,
-      title: 'Fitness Tracking App',
-      category: 'Mobile Development',
-      image: '💪',
-      description: 'Fitness app that tracks workouts, nutrition, and provides personalized training plans.',
-      technologies: ['Flutter', 'Dart', 'Firebase', 'HealthKit'],
-      link: '#'
+      title: 'Restaurant Chain',
+      icon: '🍕',
+      description: 'Social media campaign that increased online orders by 200% and improved customer engagement.',
+      tags: ['Social Media', 'Influencer Marketing'],
+      gradient: 'from-secondary/20 to-accent/20'
     },
     {
       id: 6,
-      title: 'Supply Chain Analytics',
-      category: 'Data Analytics',
-      image: '📊',
-      description: 'Advanced analytics platform for supply chain optimization and predictive insights.',
-      technologies: ['Python', 'Pandas', 'Tableau', 'AWS'],
-      link: '#'
+      title: 'Education Platform',
+      icon: '📚',
+      description: 'Content marketing strategy that increased organic traffic by 350% and student enrollments by 180%.',
+      tags: ['Content Marketing', 'Email Marketing'],
+      gradient: 'from-accent/20 to-primary/20'
     }
   ];
-
-  const categories = ['All', 'Web Development', 'Mobile Development', 'AI/ML', 'Data Analytics'];
 
   return (
     <section id="portfolio" className="py-20 bg-gradient-to-b from-muted/20 to-background">
@@ -81,25 +73,6 @@ const PortfolioSection = () => {
           </p>
         </motion.div>
 
-        {/* Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          {categories.map((category, index) => (
-            <Badge
-              key={index}
-              variant={index === 0 ? "default" : "outline"}
-              className="px-6 py-2 text-sm cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
-            >
-              {category}
-            </Badge>
-          ))}
-        </motion.div>
-
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
@@ -109,39 +82,26 @@ const PortfolioSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
+              whileHover={{ y: -8, rotateX: 1.5, rotateY: -1.5 }}
+              style={{ transformStyle: "preserve-3d" }}
             >
               <Card className="group cursor-pointer border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white/50 backdrop-blur-sm overflow-hidden">
-                <div className="relative overflow-hidden">
-                  <div className="w-full h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-300">
-                    {project.image}
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <Badge variant="secondary" className="bg-white/80 text-foreground">
-                      {project.category}
-                    </Badge>
-                  </div>
+                <div className={`h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300`}>
+                  {project.icon}
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300">
+                  <h3 className="text-xl font-display font-bold mb-2 group-hover:text-primary transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                  <p className="text-muted-foreground mb-4 leading-relaxed text-sm">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech, techIndex) => (
-                      <Badge key={techIndex} variant="outline" className="text-xs">
-                        {tech}
-                      </Badge>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span key={tagIndex} className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full">
+                        {tag}
+                      </span>
                     ))}
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      View Project →
-                    </span>
-                    <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-white text-sm">→</span>
-                    </div>
                   </div>
                 </CardContent>
               </Card>

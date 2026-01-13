@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
+import AnimatedCounter from '@/components/AnimatedCounter';
 
 const AboutSection = () => {
   const stats = [
-    { number: '50+', label: 'Happy Clients' },
-    { number: '100+', label: 'Projects Done' },
-    { number: '98%', label: 'Success Rate' },
-    { number: '24/7', label: 'Support' },
+    { number: 50, suffix: '+', label: 'Happy Clients' },
+    { number: 100, suffix: '+', label: 'Projects Done' },
+    { number: 98, suffix: '%', label: 'Success Rate' },
+    { number: 24, suffix: '/7', label: 'Support' },
   ];
 
   const values = [
@@ -42,7 +43,7 @@ const AboutSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-5xl font-poppins font-bold mb-6">
+          <h2 className="text-4xl lg:text-5xl font-display font-bold mb-6">
             About AD~VIBES Media House
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -63,7 +64,7 @@ const AboutSection = () => {
             <Card key={index} className="text-center border-0 shadow-lg bg-white/50 backdrop-blur-sm">
               <CardContent className="p-6">
                 <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
-                  {stat.number}
+                  <AnimatedCounter value={stat.number} suffix={stat.suffix} />
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {stat.label}

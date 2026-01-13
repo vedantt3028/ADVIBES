@@ -10,12 +10,12 @@ const Contact = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <main>
         <div className="pt-20">
           <div className="container mx-auto px-6 py-16">
-            <h1 className="text-5xl lg:text-6xl font-poppins font-bold text-center mb-8">
+            <h1 className="text-5xl lg:text-6xl font-display font-bold text-center mb-8">
               Get in <span className="gradient-text">Touch</span>
             </h1>
             <p className="text-xl text-muted-foreground text-center mb-16 max-w-3xl mx-auto">
@@ -28,7 +28,7 @@ const Contact = () => {
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Contact Form */}
               <div className="glass-card p-8">
-                <h2 className="text-3xl font-poppins font-bold mb-6">Send us a message</h2>
+                <h2 className="text-3xl font-display font-bold mb-6">Send us a message</h2>
                 <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
@@ -88,7 +88,7 @@ const Contact = () => {
               {/* Contact Information */}
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-poppins font-bold mb-6">Let's talk business</h2>
+                  <h2 className="text-3xl font-display font-bold mb-6">Let's talk business</h2>
                   <p className="text-lg text-muted-foreground mb-8">
                     Ready to take your digital marketing to the next level? We're here to help you achieve your goals.
                   </p>
