@@ -83,7 +83,7 @@ const TestimonialsSection = () => {
               }}
               style={{ transformStyle: "preserve-3d" }}
             >
-              <Card className="h-full border-0 shadow-lg bg-white/50 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300">
+              <Card className="h-full border-0 shadow-lg bg-gray-900/80 backdrop-blur-sm hover:shadow-xl transition-shadow duration-300 border border-gray-800">
                 <CardContent className="p-8">
                   {/* Rating */}
                   <div className="flex mb-4">
@@ -114,7 +114,7 @@ const TestimonialsSection = () => {
       </div>
 
       {/* Background Decoration */}
-      <div className="absolute top-1/4 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/4 right-0 w-64 h-64 bg-white/3 rounded-full blur-3xl"></div>
       <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
     </section>
   );

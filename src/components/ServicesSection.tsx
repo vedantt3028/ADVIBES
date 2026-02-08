@@ -163,8 +163,8 @@ const ServicesSection = () => {
       </div>
 
       {/* Background Decoration */}
-      <div className="absolute top-1/4 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/4 right-0 w-64 h-64 bg-white/3 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-0 w-64 h-64 bg-white/3 rounded-full blur-3xl"></div>
     </section>
   );
 };

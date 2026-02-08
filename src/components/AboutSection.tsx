@@ -61,7 +61,7 @@ const AboutSection = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
           {stats.map((stat, index) => (
-            <Card key={index} className="text-center border-0 shadow-lg bg-white/50 backdrop-blur-sm">
+            <Card key={index} className="text-center border-0 shadow-lg bg-gray-900/80 backdrop-blur-sm border border-gray-800">
               <CardContent className="p-6">
                 <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
                   <AnimatedCounter value={stat.number} suffix={stat.suffix} />
@@ -113,7 +113,7 @@ const AboutSection = () => {
             viewport={{ once: true }}
             className="relative"
           >
-            <div className="w-full h-80 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl flex items-center justify-center">
+            <div className="w-full h-80 bg-gray-900 rounded-2xl flex items-center justify-center border border-gray-700">
               <div className="text-center">
                 <div className="text-6xl mb-4">🎬</div>
                 <div className="text-xl font-semibold">Video Production</div>

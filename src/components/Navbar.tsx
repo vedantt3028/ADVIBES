@@ -46,7 +46,7 @@ const Navbar = () => {
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
-            ? 'glass-card mx-4 mt-4 rounded-glass py-3' 
+            ? 'glass-card mx-4 mt-4 rounded-glass py-3 bg-black/80' 
             : 'bg-transparent py-6'
         }`}
       >
@@ -90,21 +90,27 @@ const Navbar = () => {
               transition={{ delay: 0.5 }}
               className="hidden md:block flex-shrink-0"
             >
-              <Button 
-                className="btn-hero-primary"
-                onClick={() => navigate('/contact')}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Get Started
-              </Button>
+                <Button 
+                  className="btn-hero-primary"
+                  onClick={() => navigate('/contact')}
+                >
+                  Get Started
+                </Button>
+              </motion.div>
             </motion.div>
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
               <Button 
                 variant="ghost" 
-                size="sm"
+                size="icon"
                 onClick={toggleMobileMenu}
-                className="p-2 text-foreground hover:text-primary"
+                className="p-3 text-foreground hover:text-primary min-h-[44px] min-w-[44px]"
+                aria-label="Toggle mobile menu"
               >
                 <svg 
                   className="w-6 h-6" 
@@ -143,11 +149,11 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-900 shadow-2xl z-50 md:hidden"
+              className="fixed top-0 right-0 h-full w-80 bg-black border-l border-gray-800 shadow-2xl z-50 md:hidden"
             >
               <div className="flex flex-col h-full">
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between p-6 border-b border-gray-800">
                   <div className="flex items-center space-x-1">
                     <img src={logo} alt="Company Logo" className="h-10 w-10 object-contain flex-shrink-0" />
                     <span className="text-lg font-display font-bold gradient-text leading-tight">
@@ -156,9 +162,10 @@ const Navbar = () => {
                   </div>
                   <Button
                     variant="ghost"
-                    size="sm"
+                    size="icon"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2"
+                    className="p-3 min-h-[44px] min-w-[44px]"
+                    aria-label="Close mobile menu"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -172,8 +179,8 @@ const Navbar = () => {
                     <motion.button
                       key={item}
                       onClick={() => handleNavigation(item)}
-                      className={`block w-full text-left px-4 py-3 text-foreground hover:text-primary transition-colors duration-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                        isActiveRoute(item) ? 'text-primary bg-primary/10' : ''
+                      className={`block w-full text-left px-4 py-3 min-h-[44px] text-foreground hover:text-white transition-colors duration-300 font-medium rounded-lg hover:bg-gray-900 active:bg-gray-800 ${
+                        isActiveRoute(item) ? 'text-white bg-white/10' : ''
                       }`}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -185,21 +192,26 @@ const Navbar = () => {
                 </div>
 
                 {/* CTA Button */}
-                <div className="p-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="p-6 border-t border-gray-800">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                   >
-                    <Button 
-                      className="btn-hero-primary w-full"
-                      onClick={() => {
-                        navigate('/contact');
-                        setIsMobileMenuOpen(false);
-                      }}
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      Get Started
-                    </Button>
+                      <Button 
+                        className="btn-hero-primary w-full"
+                        onClick={() => {
+                          navigate('/contact');
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        Get Started
+                      </Button>
+                    </motion.div>
                   </motion.div>
                 </div>
               </div>

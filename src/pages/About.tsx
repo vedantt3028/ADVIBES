@@ -9,7 +9,7 @@ const About = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black">
       <Navbar />
       <main>
         <div className="pt-20">

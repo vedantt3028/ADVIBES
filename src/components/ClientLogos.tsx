@@ -79,7 +79,7 @@ const ClientLogos = () => {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="flex-shrink-0 group"
               >
-                <div className="bg-white p-6 min-w-[180px] h-[88px] flex items-center justify-center rounded-lg border border-primary/20 ring-1 ring-primary/10 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-600 ease-out group-hover:border-primary/35 group-hover:ring-primary/20 group-hover:shadow-[0_0_30px_rgba(157,43,92,0.28),0_0_70px_rgba(157,43,92,0.18),0_0_120px_rgba(157,43,92,0.1)]">
+                <div className="bg-gray-900 p-6 min-w-[180px] h-[88px] flex items-center justify-center rounded-lg border border-gray-700 ring-1 ring-gray-800 shadow-[0_1px_3px_rgba(255,255,255,0.05)] transition-all duration-600 ease-out group-hover:border-white group-hover:ring-white/30 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.2),0_0_70px_rgba(255,255,255,0.15),0_0_120px_rgba(255,255,255,0.1)]">
                   <img
                     src={client.logo}
                     alt={`${client.name} logo`}
@@ -97,7 +97,7 @@ const ClientLogos = () => {
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="flex-shrink-0 group"
               >
-                <div className="bg-white p-6 min-w-[180px] h-[88px] flex items-center justify-center rounded-lg border border-primary/20 ring-1 ring-primary/10 shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all duration-600 ease-out group-hover:border-primary/35 group-hover:ring-primary/20 group-hover:shadow-[0_0_30px_rgba(157,43,92,0.28),0_0_70px_rgba(157,43,92,0.18),0_0_120px_rgba(157,43,92,0.1)]">
+                <div className="bg-gray-900 p-6 min-w-[180px] h-[88px] flex items-center justify-center rounded-lg border border-gray-700 ring-1 ring-gray-800 shadow-[0_1px_3px_rgba(255,255,255,0.05)] transition-all duration-600 ease-out group-hover:border-white group-hover:ring-white/30 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.2),0_0_70px_rgba(255,255,255,0.15),0_0_120px_rgba(255,255,255,0.1)]">
                   <img
                     src={client.logo}
                     alt={`${client.name} logo`}

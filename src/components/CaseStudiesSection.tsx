@@ -91,7 +91,7 @@ const CaseStudiesSection = () => {
                 <h3 className="text-xl font-display font-semibold mb-2 text-foreground">
                   {study.title}
                 </h3>
-                <p className="text-primary font-medium mb-4">
+                <p className="text-white font-medium mb-4">
                   {study.client}
                 </p>
 
@@ -102,7 +102,7 @@ const CaseStudiesSection = () => {
 
                 {/* Learn More Link */}
                 <motion.div
-                  className="mt-6 flex items-center text-primary font-medium cursor-pointer group-hover:translate-x-2 transition-transform duration-300"
+                  className="mt-6 flex items-center text-white font-medium cursor-pointer group-hover:translate-x-2 transition-transform duration-300"
                   whileHover={{ x: 5 }}
                 >
                   <span>Learn More</span>
@@ -134,8 +134,8 @@ const CaseStudiesSection = () => {
       </div>
 
       {/* Background Decoration */}
-      <div className="absolute top-0 right-1/4 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
-      <div className="absolute bottom-0 left-1/4 w-32 h-32 bg-accent/20 rounded-full blur-2xl"></div>
+      <div className="absolute top-0 right-1/4 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+      <div className="absolute bottom-0 left-1/4 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
     </section>
   );
 };

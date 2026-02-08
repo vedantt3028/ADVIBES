@@ -1,33 +1,275 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { contactInfo as contactConfig, socialLinks } from '@/lib/contact';
+import {
+  validateName,
+  validateEmail,
+  validatePhone,
+  validateCompany,
+  validateMessage,
+  validateService,
+  checkRateLimit,
+  safeOpenUrl,
+} from '@/lib/security';
 
 const ContactSection = () => {
-  const contactInfo = [
+  // Form state with validation
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    company: '',
+    service: '',
+    message: '',
+    // Honeypot field (hidden from users, bots will fill it)
+    website: '', // Security: honeypot field to catch bots
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  // Handle input changes with validation
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  // Real-time validation on blur
+  const handleBlur = (field: string, value: string) => {
+    let result: { valid: boolean; error?: string } = { valid: true };
+
+    switch (field) {
+      case 'firstName':
+        result = validateName(value);
+        break;
+      case 'lastName':
+        result = validateName(value);
+        break;
+      case 'email':
+        result = validateEmail(value);
+        break;
+      case 'phone':
+        result = validatePhone(value);
+        break;
+      case 'company':
+        result = validateCompany(value);
+        break;
+      case 'service':
+        result = validateService(value);
+        break;
+      case 'message':
+        result = validateMessage(value);
+        break;
+      default:
+        return;
+    }
+
+    if (!result.valid) {
+      setErrors(prev => ({ ...prev, [field]: result.error || 'Invalid input' }));
+    } else {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  // Validate all form fields
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    // Validate first name
+    const firstNameResult = validateName(formData.firstName);
+    if (!firstNameResult.valid) {
+      newErrors.firstName = firstNameResult.error || 'Invalid first name';
+    }
+
+    // Validate last name
+    const lastNameResult = validateName(formData.lastName);
+    if (!lastNameResult.valid) {
+      newErrors.lastName = lastNameResult.error || 'Invalid last name';
+    }
+
+    // Validate email
+    const emailResult = validateEmail(formData.email);
+    if (!emailResult.valid) {
+      newErrors.email = emailResult.error || 'Invalid email';
+    }
+
+    // Validate phone
+    const phoneResult = validatePhone(formData.phone);
+    if (!phoneResult.valid) {
+      newErrors.phone = phoneResult.error || 'Invalid phone';
+    }
+
+    // Validate company
+    const companyResult = validateCompany(formData.company);
+    if (!companyResult.valid) {
+      newErrors.company = companyResult.error || 'Invalid company name';
+    }
+
+    // Validate service
+    const serviceResult = validateService(formData.service);
+    if (!serviceResult.valid) {
+      newErrors.service = serviceResult.error || 'Please select a service';
+    }
+
+    // Validate message
+    const messageResult = validateMessage(formData.message);
+    if (!messageResult.valid) {
+      newErrors.message = messageResult.error || 'Invalid message';
+    }
+
+    // Security: Check honeypot field (if filled, it's likely a bot)
+    if (formData.website.trim() !== '') {
+      // Silently reject - don't show error to avoid teaching bots
+      console.warn('Form submission rejected: honeypot field filled');
+      return false;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle form submission with security checks
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Security: Rate limiting check
+    if (!checkRateLimit('contact_form', 3, 60000)) {
+      setErrors({ submit: 'Too many submission attempts. Please try again later.' });
+      return;
+    }
+
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      // Security: Sanitize all inputs before sending
+      const sanitizedData = {
+        firstName: validateName(formData.firstName).sanitized,
+        lastName: validateName(formData.lastName).sanitized,
+        email: validateEmail(formData.email).sanitized,
+        phone: validatePhone(formData.phone).sanitized,
+        company: validateCompany(formData.company).sanitized,
+        service: validateService(formData.service).sanitized,
+        message: validateMessage(formData.message).sanitized,
+      };
+
+      // TODO: Send to backend API endpoint
+      // For now, just log (in production, send to secure API)
+      console.log('Form submission (sanitized):', sanitizedData);
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setSubmitSuccess(true);
+      // Reset form after successful submission
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        company: '',
+        service: '',
+        message: '',
+        website: '',
+      });
+
+      // Clear success message after 5 seconds
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (error) {
+      // Security: Don't expose internal error details
+      setErrors({ submit: 'An error occurred. Please try again later.' });
+      console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // WhatsApp icon component
+  const WhatsAppIcon = ({ className = "w-8 h-8" }: { className?: string }) => (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  );
+
+  const handleWhatsAppClick = () => {
+    // Get WhatsApp number, fallback to phone number if not set
+    let whatsappNumber = (contactConfig as any).whatsapp || contactConfig.phone;
+    // Remove all non-digit characters and ensure country code is present
+    whatsappNumber = whatsappNumber.replace(/\D/g, '');
+    // If number doesn't start with country code, add India code (91)
+    if (!whatsappNumber.startsWith('91') && whatsappNumber.length === 10) {
+      whatsappNumber = '91' + whatsappNumber;
+    }
+    const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+    safeOpenUrl(whatsappUrl, '_blank');
+  };
+
+  const contactInfo: Array<{
+    icon: string;
+    title: string;
+    details: string;
+    onClick?: () => void;
+    isClickable?: boolean;
+  }> = [
     {
       icon: '📍',
       title: 'Our Locations',
       details: (contactConfig.addresses && contactConfig.addresses.length > 0)
         ? contactConfig.addresses.join('\n\n')
-        : contactConfig.address
+        : contactConfig.address,
+      onClick: undefined
     },
     {
       icon: '📧',
       title: 'Email Us',
-      details: contactConfig.email
+      details: contactConfig.email,
+      onClick: undefined
     },
     {
       icon: '📞',
       title: 'Call Us',
-      details: contactConfig.phone
+      details: contactConfig.phone,
+      onClick: undefined
+    },
+    {
+      icon: 'whatsapp',
+      title: 'Chat with Us',
+      details: 'Click to start a conversation on WhatsApp',
+      onClick: handleWhatsAppClick,
+      isClickable: true
     },
     {
       icon: '⏰',
       title: 'Business Hours',
-      details: contactConfig.businessHours
+      details: contactConfig.businessHours,
+      onClick: undefined
     }
   ];
 
@@ -67,59 +309,172 @@ const ContactSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <Card className="border-0 shadow-xl bg-white/50 backdrop-blur-sm">
+            <Card className="border-0 shadow-xl bg-gray-900/80 backdrop-blur-sm border border-gray-800">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold mb-6">Send us a message</h3>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Security: Honeypot field - hidden from users, bots will fill it */}
+                  <div style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none' }} aria-hidden="true">
+                    <label htmlFor="website">Website (leave blank)</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData.website}
+                      onChange={(e) => handleInputChange('website', e.target.value)}
+                    />
+                  </div>
+
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">First Name</label>
+                      <label htmlFor="firstName" className="block text-sm font-medium mb-2">First Name</label>
                       <Input
+                        id="firstName"
                         type="text"
                         placeholder="John"
-                        className="w-full"
+                        className={`w-full transition-all ${errors.firstName ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-700'}`}
+                        value={formData.firstName}
+                        onChange={(e) => handleInputChange('firstName', e.target.value)}
+                        onBlur={(e) => handleBlur('firstName', e.target.value)}
+                        maxLength={100}
+                        required
                       />
+                      {errors.firstName && (
+                        <p className="text-sm text-red-400 mt-1 flex items-center gap-1">
+                          <span>⚠</span>
+                          {errors.firstName}
+                        </p>
+                      )}
+                      {!errors.firstName && formData.firstName && (
+                        <p className="text-sm text-green-400 mt-1 flex items-center gap-1">
+                          <span>✓</span>
+                          Looks good!
+                        </p>
+                      )}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2">Last Name</label>
+                      <label htmlFor="lastName" className="block text-sm font-medium mb-2">Last Name</label>
                       <Input
+                        id="lastName"
                         type="text"
                         placeholder="Doe"
-                        className="w-full"
+                        className={`w-full transition-all ${errors.lastName ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-700'}`}
+                        value={formData.lastName}
+                        onChange={(e) => handleInputChange('lastName', e.target.value)}
+                        onBlur={(e) => handleBlur('lastName', e.target.value)}
+                        maxLength={100}
+                        required
                       />
+                      {errors.lastName && (
+                        <p className="text-sm text-red-400 mt-1 flex items-center gap-1">
+                          <span>⚠</span>
+                          {errors.lastName}
+                        </p>
+                      )}
+                      {!errors.lastName && formData.lastName && (
+                        <p className="text-sm text-green-400 mt-1 flex items-center gap-1">
+                          <span>✓</span>
+                          Looks good!
+                        </p>
+                      )}
                     </div>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
                     <Input
+                      id="email"
                       type="email"
                       placeholder="john@example.com"
-                      className="w-full"
+                      className={`w-full transition-all ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-700'}`}
+                      value={formData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      onBlur={(e) => handleBlur('email', e.target.value)}
+                      maxLength={254}
+                      required
                     />
+                    {errors.email && (
+                      <p className="text-sm text-red-400 mt-1 flex items-center gap-1">
+                        <span>⚠</span>
+                        {errors.email}
+                      </p>
+                    )}
+                    {!errors.email && formData.email && (
+                      <p className="text-sm text-green-400 mt-1 flex items-center gap-1">
+                        <span>✓</span>
+                        Valid email format
+                      </p>
+                    )}
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2">Phone</label>
+                    <label htmlFor="phone" className="block text-sm font-medium mb-2">Phone</label>
                     <Input
+                      id="phone"
                       type="tel"
                       placeholder="+1 (555) 123-4567"
-                      className="w-full"
+                      className={`w-full transition-all ${errors.phone ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-700'}`}
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                      onBlur={(e) => handleBlur('phone', e.target.value)}
+                      maxLength={20}
+                      required
                     />
+                    {errors.phone && (
+                      <p className="text-sm text-red-400 mt-1 flex items-center gap-1">
+                        <span>⚠</span>
+                        {errors.phone}
+                      </p>
+                    )}
+                    {!errors.phone && formData.phone && (
+                      <p className="text-sm text-green-400 mt-1 flex items-center gap-1">
+                        <span>✓</span>
+                        Valid phone number
+                      </p>
+                    )}
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2">Company</label>
+                    <label htmlFor="company" className="block text-sm font-medium mb-2">Company</label>
                     <Input
+                      id="company"
                       type="text"
                       placeholder="Your Company Name"
-                      className="w-full"
+                      className={`w-full transition-all ${errors.company ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-700'}`}
+                      value={formData.company}
+                      onChange={(e) => handleInputChange('company', e.target.value)}
+                      onBlur={(e) => handleBlur('company', e.target.value)}
+                      maxLength={200}
+                      required
                     />
+                    {errors.company && (
+                      <p className="text-sm text-red-400 mt-1 flex items-center gap-1">
+                        <span>⚠</span>
+                        {errors.company}
+                      </p>
+                    )}
+                    {!errors.company && formData.company && (
+                      <p className="text-sm text-green-400 mt-1 flex items-center gap-1">
+                        <span>✓</span>
+                        Looks good!
+                      </p>
+                    )}
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2">Service Interest</label>
-                    <select className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <label htmlFor="service" className="block text-sm font-medium mb-2">Service Interest</label>
+                    <select
+                      id="service"
+                      className={`w-full px-3 py-2 border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all min-h-[44px] ${
+                        errors.service ? 'border-red-500 focus:ring-red-500' : 'border-input'
+                      }`}
+                      value={formData.service}
+                      onChange={(e) => handleInputChange('service', e.target.value)}
+                      onBlur={(e) => handleBlur('service', e.target.value)}
+                      required
+                    >
                       <option value="">Select a service</option>
                       {services.map((service, index) => (
                         <option key={index} value={service.toLowerCase().replace(/\s+/g, '-')}>
@@ -127,19 +482,83 @@ const ContactSection = () => {
                         </option>
                       ))}
                     </select>
+                    {errors.service && (
+                      <p className="text-sm text-red-400 mt-1 flex items-center gap-1">
+                        <span>⚠</span>
+                        {errors.service}
+                      </p>
+                    )}
+                    {!errors.service && formData.service && (
+                      <p className="text-sm text-green-400 mt-1 flex items-center gap-1">
+                        <span>✓</span>
+                        Service selected
+                      </p>
+                    )}
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2">Project Details</label>
+                    <label htmlFor="message" className="block text-sm font-medium mb-2">
+                      Project Details
+                      <span className="text-muted-foreground text-xs font-normal ml-2">
+                        ({formData.message.length}/5000 characters)
+                      </span>
+                    </label>
                     <Textarea
+                      id="message"
                       placeholder="Tell us about your project, goals, and requirements..."
-                      className="w-full min-h-[120px]"
+                      className={`w-full min-h-[120px] transition-all ${
+                        errors.message ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-700'
+                      }`}
+                      value={formData.message}
+                      onChange={(e) => handleInputChange('message', e.target.value)}
+                      onBlur={(e) => handleBlur('message', e.target.value)}
+                      maxLength={5000}
+                      required
                     />
+                    {errors.message && (
+                      <p className="text-sm text-red-400 mt-1 flex items-center gap-1">
+                        <span>⚠</span>
+                        {errors.message}
+                      </p>
+                    )}
+                    {!errors.message && formData.message && formData.message.length >= 10 && (
+                      <p className="text-sm text-green-400 mt-1 flex items-center gap-1">
+                        <span>✓</span>
+                        Message looks good!
+                      </p>
+                    )}
+                    {!errors.message && formData.message && formData.message.length < 10 && (
+                      <p className="text-sm text-yellow-400 mt-1 flex items-center gap-1">
+                        <span>ℹ</span>
+                        Please provide more details (minimum 10 characters)
+                      </p>
+                    )}
                   </div>
+
+                  {/* Success/Error Messages */}
+                  {submitSuccess && (
+                    <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-md text-green-400">
+                      Thank you! Your message has been sent successfully.
+                    </div>
+                  )}
+                  {errors.submit && (
+                    <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-md text-red-400">
+                      {errors.submit}
+                    </div>
+                  )}
                   
-                  <Button className="w-full btn-hero-primary">
-                    Send Message
-                  </Button>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Button 
+                      type="submit"
+                      className="w-full btn-hero-primary"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                    </Button>
+                  </motion.div>
                 </form>
               </CardContent>
             </Card>
@@ -163,17 +582,40 @@ const ContactSection = () => {
                   transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="border-0 shadow-lg bg-white/50 backdrop-blur-sm">
-                    <CardContent className="p-6">
-                      <div className="flex items-start space-x-4">
-                        <div className="text-3xl">{info.icon}</div>
-                        <div>
-                          <h4 className="font-semibold text-lg mb-1">{info.title}</h4>
-                          <p className="text-muted-foreground whitespace-pre-line">{info.details}</p>
+                  <motion.div
+                    whileHover={info.isClickable ? { scale: 1.02 } : {}}
+                    whileTap={info.isClickable ? { scale: 0.98 } : {}}
+                  >
+                    <Card 
+                      className={`border-0 shadow-lg bg-gray-900/80 backdrop-blur-sm border border-gray-800 ${
+                        info.isClickable ? 'cursor-pointer hover:border-white/50 hover:shadow-glow transition-all duration-300' : ''
+                      }`}
+                      onClick={info.onClick}
+                    >
+                      <CardContent className="p-6">
+                        <div className="flex items-start space-x-4">
+                          <div className="text-3xl flex-shrink-0 flex items-center">
+                            {info.icon === 'whatsapp' ? (
+                              <div className="text-[#25D366]">
+                                <WhatsAppIcon className="w-8 h-8" />
+                              </div>
+                            ) : (
+                              <span>{info.icon}</span>
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-lg mb-1">{info.title}</h4>
+                            <p className="text-muted-foreground whitespace-pre-line">{info.details}</p>
+                            {info.isClickable && (
+                              <p className="text-sm text-[#25D366] mt-2 font-medium">
+                                Click to chat →
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
                 </motion.div>
               ))}
             </div>
@@ -185,24 +627,24 @@ const ContactSection = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               viewport={{ once: true }}
             >
-              <Card className="border-0 shadow-lg bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20">
+              <Card className="border-0 shadow-lg bg-gray-900 border border-gray-700">
                 <CardContent className="p-6">
                   <h4 className="text-xl font-bold mb-4">Why Choose AD~VIBES?</h4>
                   <ul className="space-y-3 text-muted-foreground">
                     <li className="flex items-center space-x-2">
-                      <span className="text-primary">✓</span>
+                      <span className="text-white">✓</span>
                       <span>Expert team with 5+ years experience</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <span className="text-primary">✓</span>
+                      <span className="text-white">✓</span>
                       <span>100+ successful projects delivered</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <span className="text-primary">✓</span>
+                      <span className="text-white">✓</span>
                       <span>24/7 support and maintenance</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <span className="text-primary">✓</span>
+                      <span className="text-white">✓</span>
                       <span>Competitive pricing and flexible packages</span>
                     </li>
                   </ul>
@@ -225,10 +667,11 @@ const ContactSection = () => {
                   { name: 'YouTube', url: socialLinks.youtube, className: 'social-youtube', icon: 'youtube' },
                   { name: 'Facebook', url: socialLinks.facebook, className: 'social-facebook', icon: 'facebook' },
                   { name: 'LinkedIn', url: socialLinks.linkedin, className: 'social-linkedin', icon: 'linkedin' },
+                  { name: 'WhatsApp', url: typeof socialLinks.whatsapp === 'function' ? socialLinks.whatsapp() : '#', className: 'social-whatsapp', icon: 'whatsapp' },
                 ].map((item) => (
                   <button
                     key={item.name}
-                    onClick={() => window.open(item.url, '_blank')}
+                    onClick={() => safeOpenUrl(item.url, '_blank')}
                     className={`social-btn ${item.className}`}
                     title={item.name}
                     aria-label={item.name}
@@ -261,6 +704,11 @@ const ContactSection = () => {
                           <path fill="white" d="M100.28 448H7.4V148.9h92.88zm-46.44-341a53.79 53.79 0 1 1 53.79-53.8 53.8 53.8 0 0 1-53.8 53.8zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.24-79.2-48.3 0-55.7 37.7-55.7 76.6V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.2 87.8-48.2 94 0 111.2 61.9 111.2 142.3V448z"/>
                         </svg>
                       )}
+                      {item.icon === 'whatsapp' && (
+                        <div className="text-white">
+                          <WhatsAppIcon className="w-6 h-6" />
+                        </div>
+                      )}
                     </span>
                     <span className="text">{item.name}</span>
                   </button>
@@ -279,7 +727,7 @@ const ContactSection = () => {
           className="mt-16"
         >
           <Card className="border-0 shadow-lg overflow-hidden">
-            <div className="w-full h-64 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+            <div className="w-full h-64 bg-gray-900 flex items-center justify-center border border-gray-700">
               <div className="text-center">
                 <div className="text-6xl mb-4">🗺️</div>
                 <div className="text-xl font-semibold">Interactive Map</div>
