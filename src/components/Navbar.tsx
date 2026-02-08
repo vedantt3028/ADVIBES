@@ -20,11 +20,26 @@ const Navbar = () => {
 
   const handleNavigation = (route: string) => {
     if (route === 'Home') {
-      navigate('/');
+      if (location.pathname === '/') {
+        // Already on homepage, scroll to hero section
+        document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Navigate to homepage then scroll to hero
+        navigate('/');
+        setTimeout(() => {
+          document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    } else if (route === 'Behind the Build') {
+      if (location.pathname === '/') {
+        document.getElementById('behind-the-build')?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        navigate('/');
+        setTimeout(() => document.getElementById('behind-the-build')?.scrollIntoView({ behavior: 'smooth' }), 150);
+      }
     } else {
       navigate(`/${route.toLowerCase()}`);
     }
-    // Close mobile menu after navigation
     setIsMobileMenuOpen(false);
   };
 
@@ -32,8 +47,13 @@ const Navbar = () => {
     if (route === 'Home') {
       return location.pathname === '/';
     }
+    if (route === 'Behind the Build') {
+      return location.pathname === '/';
+    }
     return location.pathname === `/${route.toLowerCase()}`;
   };
+
+  const navItems = ['Home', 'About', 'Services', 'Portfolio', 'Behind the Build', 'Contact'];
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -66,7 +86,7 @@ const Navbar = () => {
 
             {/* Desktop Navigation Links - Centered */}
             <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
-              {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item, index) => (
+              {navItems.map((item, index) => (
                 <motion.button
                   key={item}
                   onClick={() => handleNavigation(item)}
@@ -175,7 +195,7 @@ const Navbar = () => {
 
                 {/* Navigation Links */}
                 <div className="flex-1 p-6 space-y-2">
-                  {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item, index) => (
+                  {navItems.map((item, index) => (
                     <motion.button
                       key={item}
                       onClick={() => handleNavigation(item)}

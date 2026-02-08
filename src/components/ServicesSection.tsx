@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import AnimatedCounter from '@/components/AnimatedCounter';
 
 const ServicesSection = () => {
   const navigate = useNavigate();
@@ -9,12 +10,6 @@ const ServicesSection = () => {
   };
 
   const services = [
-    {
-      icon: '🎬',
-      title: 'Corporate Documentaries',
-      description: 'Showcase your brand story and achievements through compelling documentary-style videos that connect with your audience.',
-      features: ['Brand Storytelling', 'Company Culture', 'Achievement Highlights']
-    },
     {
       icon: '📺',
       title: 'Ad Films',
@@ -28,23 +23,47 @@ const ServicesSection = () => {
       features: ['Social Media Optimization', 'Trending Content', 'Viral Potential']
     },
     {
-      icon: '✨',
-      title: 'Motion Design',
-      description: 'Animated visuals that captivate and bring your content to life with dynamic motion graphics.',
-      features: ['2D Animation', 'Motion Graphics', 'Visual Effects']
-    },
-    {
       icon: '📸',
       title: 'Photography',
       description: 'High-quality brand and product images that showcase your offerings in the best possible light.',
       features: ['Product Photography', 'Corporate Events', 'Brand Photography']
     },
     {
+      icon: '✨',
+      title: 'Motion Design',
+      description: 'Animated visuals that captivate and bring your content to life with dynamic motion graphics.',
+      features: ['2D Animation', 'Motion Graphics', 'Visual Effects']
+    },
+    {
       icon: '🎤',
       title: 'Corporate Interviews',
       description: 'Insightful interviews that humanize your brand and build trust with your audience.',
       features: ['Executive Interviews', 'Employee Stories', 'Customer Testimonials']
+    },
+    {
+      icon: '🎬',
+      title: 'Corporate Documentaries',
+      description: 'Showcase your brand story and achievements through compelling documentary-style videos that connect with your audience.',
+      features: ['Brand Storytelling', 'Company Culture', 'Achievement Highlights']
+    },
+    {
+      icon: '🎞️',
+      title: 'Short Films',
+      description: 'Cinematic short-form storytelling that captures emotions and delivers powerful narratives for brands and festivals.',
+      features: ['Narrative Storytelling', 'Festival Ready', 'Brand Films']
+    },
+    {
+      icon: '📽️',
+      title: 'Web Series',
+      description: 'Engaging episodic content that keeps your audience hooked and builds lasting connection with your brand story.',
+      features: ['Episodic Content', 'Series Production', 'Digital Storytelling']
     }
+  ];
+
+  const stats = [
+    { number: 35, suffix: '+', label: 'Happy Clients' },
+    { number: 78, suffix: '+', label: 'Projects Done' },
+    { number: 98, suffix: '%', label: 'Success Rate' }
   ];
 
   const containerVariants = {
@@ -79,6 +98,24 @@ const ServicesSection = () => {
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Comprehensive video production and media solutions designed to elevate your brand's visual presence
           </p>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-3 gap-6 md:gap-8 mb-16"
+        >
+          {stats.map((stat, index) => (
+            <div key={index} className="text-center">
+              <div className="text-3xl md:text-4xl font-display font-bold gradient-text mb-1">
+                <AnimatedCounter value={stat.number} suffix={stat.suffix} />
+              </div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
+            </div>
+          ))}
         </motion.div>
 
         {/* Services Grid */}

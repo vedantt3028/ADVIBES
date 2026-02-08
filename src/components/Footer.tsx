@@ -50,7 +50,6 @@ const Footer = () => {
   const socialLinksList = [
     { name: 'Instagram', href: socialLinks.instagram, className: 'social-instagram', icon: 'instagram' },
     { name: 'YouTube', href: socialLinks.youtube, className: 'social-youtube', icon: 'youtube' },
-    { name: 'Facebook', href: socialLinks.facebook, className: 'social-facebook', icon: 'facebook' },
     { name: 'LinkedIn', href: socialLinks.linkedin, className: 'social-linkedin', icon: 'linkedin' },
     { name: 'WhatsApp', href: '#', className: 'social-whatsapp', icon: 'whatsapp', onClick: handleWhatsAppClick },
   ];
@@ -88,7 +87,7 @@ const Footer = () => {
 
           {/* Nav Links */}
           <div className="flex flex-wrap justify-center gap-6 text-sm font-medium">
-            {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => (
+            {['Home', 'About', 'Services', 'Portfolio', 'Behind the Build', 'Contact'].map((item) => (
               <motion.button
                 key={item}
                 onClick={() => handleNavigation(item)}
@@ -144,11 +143,6 @@ const Footer = () => {
                         <path fill="white" d="M549.655 148.28c-6.281-23.64-24.041-42.396-47.655-48.685C462.923 85 288 85 288 85S113.077 85 74 99.595c-23.614 6.289-41.374 25.045-47.655 48.685-12.614 47.328-12.614 147.717-12.614 147.717s0 100.39 12.614 147.718c6.281 23.64 24.041 42.396 47.655 48.684C113.077 427 288 427 288 427s174.923 0 214-14.595c23.614-6.289 41.374-25.045 47.655-48.685 12.614-47.328 12.614-147.718 12.614-147.718s0-100.389-12.614-147.717zM240 336V176l144 80-144 80z"/>
                       </svg>
                     )}
-                    {item.icon === 'facebook' && (
-                      <svg className="w-5 h-5" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="white" d="M279.14 288l14.22-92.66h-88.91V129.08c0-25.35 12.42-50.06 52.24-50.06H296V6.26S259.5 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72V195.3H22.89V288h81.39v224h100.17V288z"/>
-                      </svg>
-                    )}
                     {item.icon === 'linkedin' && (
                       <svg className="w-5 h-5" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
                         <path fill="white" d="M100.28 448H7.4V148.9h92.88zm-46.44-341a53.79 53.79 0 1 1 53.79-53.8 53.8 53.8 0 0 1-53.8 53.8zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.24-79.2-48.3 0-55.7 37.7-55.7 76.6V448h-92.8V148.9h89.1v40.8h1.3c12.4-23.5 42.7-48.2 87.8-48.2 94 0 111.2 61.9 111.2 142.3V448z"/>
@@ -163,9 +157,9 @@ const Footer = () => {
 
           {/* Contact Inline */}
           <div className="flex flex-col md:flex-row items-center gap-4 text-sm text-muted-foreground">
-            <span>{footerContact.phoneLabel}</span>
+            <a href="tel:+918605816066" className="hover:text-primary transition-colors">{footerContact.phoneLabel}</a>
             <span className="hidden md:inline">•</span>
-            <span>{footerContact.emailLabel} {footerContact.emailAddress}</span>
+            <a href={`mailto:${footerContact.emailAddress}`} className="hover:text-primary transition-colors">{footerContact.emailLabel} {footerContact.emailAddress}</a>
           </div>
         </motion.div>
 

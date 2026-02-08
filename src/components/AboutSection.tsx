@@ -4,8 +4,8 @@ import AnimatedCounter from '@/components/AnimatedCounter';
 
 const AboutSection = () => {
   const stats = [
-    { number: 50, suffix: '+', label: 'Happy Clients' },
-    { number: 100, suffix: '+', label: 'Projects Done' },
+    { number: 35, suffix: '+', label: 'Happy Clients' },
+    { number: 78, suffix: '+', label: 'Projects Done' },
     { number: 98, suffix: '%', label: 'Success Rate' },
     { number: 24, suffix: '/7', label: 'Support' },
   ];
