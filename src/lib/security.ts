@@ -208,7 +208,7 @@ export function validateService(service: string): { valid: boolean; sanitized: s
  * Rate limiting helper (client-side)
  * Uses localStorage to track submission attempts
  */
-export function checkRateLimit(key: string, maxAttempts: number = 3, windowMs: number = 60000): boolean {
+export function checkRateLimit(key: string, maxAttempts: number = 5, windowMs: number = 120000): boolean {
   try {
     const now = Date.now();
     const storageKey = `rate_limit_${key}`;
@@ -221,13 +221,17 @@ export function checkRateLimit(key: string, maxAttempts: number = 3, windowMs: n
 
     const data = JSON.parse(stored);
     
+    // Check if window has expired
     if (now > data.resetAt) {
       // Reset window
       localStorage.setItem(storageKey, JSON.stringify({ count: 1, resetAt: now + windowMs }));
       return true;
     }
 
+    // Check if limit exceeded
     if (data.count >= maxAttempts) {
+      const remainingTime = Math.ceil((data.resetAt - now) / 1000); // seconds
+      console.warn(`Rate limit exceeded. Try again in ${remainingTime} seconds.`);
       return false; // Rate limit exceeded
     }
 
@@ -237,8 +241,22 @@ export function checkRateLimit(key: string, maxAttempts: number = 3, windowMs: n
     return true;
   } catch (error) {
     // If localStorage fails, allow the request (fail open for UX)
+    // This prevents blocking users if localStorage is disabled or full
     console.error('Rate limit check failed:', error);
     return true;
+  }
+}
+
+/**
+ * Clear rate limit for a specific key
+ * Useful after successful submissions
+ */
+export function clearRateLimit(key: string): void {
+  try {
+    const storageKey = `rate_limit_${key}`;
+    localStorage.removeItem(storageKey);
+  } catch (error) {
+    console.error('Failed to clear rate limit:', error);
   }
 }
 

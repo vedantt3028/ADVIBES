@@ -14,6 +14,7 @@ import {
   validateMessage,
   validateService,
   checkRateLimit,
+  clearRateLimit,
   safeOpenUrl,
 } from '@/lib/security';
 
@@ -43,6 +44,14 @@ const ContactSection = () => {
       setErrors(prev => {
         const newErrors = { ...prev };
         delete newErrors[field];
+        return newErrors;
+      });
+    }
+    // Clear submit error when user starts typing in any field
+    if (errors.submit) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors.submit;
         return newErrors;
       });
     }
@@ -150,19 +159,25 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Security: Rate limiting check
-    if (!checkRateLimit('contact_form', 3, 60000)) {
-      setErrors({ submit: 'Too many submission attempts. Please try again later.' });
+    // Prevent double submission
+    if (isSubmitting) {
       return;
     }
 
-    // Validate form
+    // Validate form first (before rate limit check for better UX)
     if (!validateForm()) {
+      return;
+    }
+
+    // Security: Rate limiting check (increased to 5 submissions per 2 minutes)
+    if (!checkRateLimit('contact_form', 5, 120000)) {
+      setErrors({ submit: 'Too many submission attempts. Please wait 2 minutes before trying again.' });
       return;
     }
 
     setIsSubmitting(true);
     setErrors({});
+    setSubmitSuccess(false);
 
     try {
       // Security: Sanitize all inputs before sending
@@ -180,25 +195,35 @@ const ContactSection = () => {
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      if (serviceId && templateId && publicKey) {
-        await emailjs.send(
-          serviceId,
-          templateId,
-          {
-            first_name: sanitizedData.firstName,
-            last_name: sanitizedData.lastName,
-            email: sanitizedData.email,
-            phone: sanitizedData.phone,
-            company: sanitizedData.company,
-            service: sanitizedData.service,
-            message: sanitizedData.message,
-          },
-          { publicKey }
-        );
-      } else {
-        console.log('Form submission (no EmailJS config):', sanitizedData);
-        await new Promise((resolve) => setTimeout(resolve, 800));
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('EmailJS configuration is missing. Please check your environment variables.');
       }
+
+      // Send email with timeout (10 seconds)
+      const emailPromise = emailjs.send(
+        serviceId,
+        templateId,
+        {
+          first_name: sanitizedData.firstName,
+          last_name: sanitizedData.lastName,
+          email: sanitizedData.email,
+          phone: sanitizedData.phone,
+          company: sanitizedData.company,
+          service: sanitizedData.service,
+          message: sanitizedData.message,
+        },
+        { publicKey }
+      );
+
+      // Add timeout to prevent hanging requests
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout. Please check your internet connection and try again.')), 10000);
+      });
+
+      await Promise.race([emailPromise, timeoutPromise]);
+
+      // Clear rate limit on successful submission (allow immediate resubmission if needed)
+      clearRateLimit('contact_form');
 
       setSubmitSuccess(true);
       // Reset form after successful submission
@@ -213,12 +238,37 @@ const ContactSection = () => {
         website: '',
       });
 
-      // Clear success message after 5 seconds
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    } catch (error) {
-      // Security: Don't expose internal error details
-      setErrors({ submit: 'An error occurred. Please try again later.' });
+      // Clear success message after 8 seconds
+      setTimeout(() => setSubmitSuccess(false), 8000);
+    } catch (error: any) {
       console.error('Form submission error:', error);
+      
+      // Provide specific error messages based on error type
+      let errorMessage = 'An error occurred. Please try again later.';
+      
+      if (error?.text) {
+        // EmailJS specific errors
+        if (error.text.includes('Invalid') || error.text.includes('invalid')) {
+          errorMessage = 'Invalid EmailJS configuration. Please contact support.';
+        } else if (error.text.includes('quota') || error.text.includes('limit')) {
+          errorMessage = 'Email service limit reached. Please try again later or contact us directly.';
+        } else if (error.text.includes('timeout') || error.text.includes('network')) {
+          errorMessage = 'Network error. Please check your connection and try again.';
+        } else {
+          errorMessage = `Email service error: ${error.text}`;
+        }
+      } else if (error?.message) {
+        // Generic errors
+        if (error.message.includes('timeout')) {
+          errorMessage = 'Request timed out. Please check your internet connection and try again.';
+        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = 'Network error. Please check your connection and try again.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
+      setErrors({ submit: errorMessage });
     } finally {
       setIsSubmitting(false);
     }
