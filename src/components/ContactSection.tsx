@@ -195,8 +195,22 @@ const ContactSection = () => {
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+      // Log environment variables (without exposing full values) for debugging
+      console.log('EmailJS Config Check:', {
+        hasServiceId: !!serviceId,
+        hasTemplateId: !!templateId,
+        hasPublicKey: !!publicKey,
+        serviceIdLength: serviceId?.length || 0,
+        templateIdLength: templateId?.length || 0,
+      });
+
       if (!serviceId || !templateId || !publicKey) {
-        throw new Error('EmailJS configuration is missing. Please check your environment variables.');
+        console.error('Missing EmailJS environment variables:', {
+          serviceId: serviceId || 'MISSING',
+          templateId: templateId || 'MISSING',
+          publicKey: publicKey ? 'SET' : 'MISSING',
+        });
+        throw new Error('EmailJS configuration is missing. Please check your environment variables in Vercel settings.');
       }
 
       // Send email with timeout (10 seconds)
@@ -220,7 +234,16 @@ const ContactSection = () => {
         setTimeout(() => reject(new Error('Request timeout. Please check your internet connection and try again.')), 10000);
       });
 
-      await Promise.race([emailPromise, timeoutPromise]);
+      const response = await Promise.race([emailPromise, timeoutPromise]);
+
+      // Validate EmailJS response - check if email was actually sent
+      if (!response || (response as any).status !== 200) {
+        console.error('EmailJS response error:', response);
+        throw new Error('Email service returned an error. Please check your EmailJS configuration.');
+      }
+
+      // Log success for debugging
+      console.log('Email sent successfully:', response);
 
       // Clear rate limit on successful submission (allow immediate resubmission if needed)
       clearRateLimit('contact_form');
@@ -242,6 +265,13 @@ const ContactSection = () => {
       setTimeout(() => setSubmitSuccess(false), 8000);
     } catch (error: any) {
       console.error('Form submission error:', error);
+      console.error('Error details:', {
+        message: error?.message,
+        text: error?.text,
+        status: error?.status,
+        statusText: error?.statusText,
+        response: error?.response,
+      });
       
       // Provide specific error messages based on error type
       let errorMessage = 'An error occurred. Please try again later.';
@@ -249,11 +279,15 @@ const ContactSection = () => {
       if (error?.text) {
         // EmailJS specific errors
         if (error.text.includes('Invalid') || error.text.includes('invalid')) {
-          errorMessage = 'Invalid EmailJS configuration. Please contact support.';
+          errorMessage = 'Invalid EmailJS configuration. Please check your Service ID, Template ID, and Public Key in Vercel environment variables.';
         } else if (error.text.includes('quota') || error.text.includes('limit')) {
           errorMessage = 'Email service limit reached. Please try again later or contact us directly.';
         } else if (error.text.includes('timeout') || error.text.includes('network')) {
           errorMessage = 'Network error. Please check your connection and try again.';
+        } else if (error.text.includes('Forbidden') || error.text.includes('403')) {
+          errorMessage = 'EmailJS authentication failed. Please verify your Public Key is correct.';
+        } else if (error.text.includes('Not Found') || error.text.includes('404')) {
+          errorMessage = 'EmailJS service or template not found. Please verify your Service ID and Template ID.';
         } else {
           errorMessage = `Email service error: ${error.text}`;
         }
@@ -263,8 +297,19 @@ const ContactSection = () => {
           errorMessage = 'Request timed out. Please check your internet connection and try again.';
         } else if (error.message.includes('network') || error.message.includes('fetch')) {
           errorMessage = 'Network error. Please check your connection and try again.';
+        } else if (error.message.includes('configuration') || error.message.includes('environment')) {
+          errorMessage = error.message;
         } else {
           errorMessage = error.message;
+        }
+      } else if (error?.status) {
+        // HTTP status errors
+        if (error.status === 403) {
+          errorMessage = 'EmailJS authentication failed. Please check your Public Key in Vercel environment variables.';
+        } else if (error.status === 404) {
+          errorMessage = 'EmailJS service or template not found. Please verify your Service ID and Template ID.';
+        } else {
+          errorMessage = `Email service error (Status: ${error.status}). Please check your EmailJS configuration.`;
         }
       }
       
