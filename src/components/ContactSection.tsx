@@ -191,26 +191,41 @@ const ContactSection = () => {
         message: validateMessage(formData.message).sanitized,
       };
 
+      // Access environment variables
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      // Log environment variables (without exposing full values) for debugging
-      console.log('EmailJS Config Check:', {
+      // Debug: Log ALL environment variables that start with VITE_ to see what's available
+      const allEnvVars = Object.keys(import.meta.env).filter(key => key.startsWith('VITE_'));
+      console.log('🔍 All VITE_ environment variables found:', allEnvVars);
+      console.log('🔍 EmailJS Config Check:', {
         hasServiceId: !!serviceId,
         hasTemplateId: !!templateId,
         hasPublicKey: !!publicKey,
+        serviceIdValue: serviceId || 'UNDEFINED',
+        templateIdValue: templateId || 'UNDEFINED',
+        publicKeyValue: publicKey ? `${publicKey.substring(0, 6)}...` : 'UNDEFINED',
         serviceIdLength: serviceId?.length || 0,
         templateIdLength: templateId?.length || 0,
+        publicKeyLength: publicKey?.length || 0,
       });
 
+      // Check all environment variables
       if (!serviceId || !templateId || !publicKey) {
-        console.error('Missing EmailJS environment variables:', {
+        console.error('❌ Missing EmailJS environment variables:', {
           serviceId: serviceId || 'MISSING',
           templateId: templateId || 'MISSING',
-          publicKey: publicKey ? 'SET' : 'MISSING',
+          publicKey: publicKey ? 'SET (hidden)' : 'MISSING',
         });
-        throw new Error('EmailJS configuration is missing. Please check your environment variables in Vercel settings.');
+        console.error('📋 Expected variable names (EXACT):', [
+          'VITE_EMAILJS_SERVICE_ID',
+          'VITE_EMAILJS_TEMPLATE_ID',
+          'VITE_EMAILJS_PUBLIC_KEY'
+        ]);
+        console.error('⚠️ IMPORTANT: After adding variables in Vercel, you MUST redeploy!');
+        console.error('📝 Steps: Vercel Dashboard → Deployments → Click ⋯ → Redeploy');
+        throw new Error('EmailJS configuration is missing. Variables not found. Check Vercel environment variables and redeploy.');
       }
 
       // Send email with timeout (10 seconds)
