@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -175,12 +176,29 @@ const ContactSection = () => {
         message: validateMessage(formData.message).sanitized,
       };
 
-      // TODO: Send to backend API endpoint
-      // For now, just log (in production, send to secure API)
-      console.log('Form submission (sanitized):', sanitizedData);
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (serviceId && templateId && publicKey) {
+        await emailjs.send(
+          serviceId,
+          templateId,
+          {
+            first_name: sanitizedData.firstName,
+            last_name: sanitizedData.lastName,
+            email: sanitizedData.email,
+            phone: sanitizedData.phone,
+            company: sanitizedData.company,
+            service: sanitizedData.service,
+            message: sanitizedData.message,
+          },
+          { publicKey }
+        );
+      } else {
+        console.log('Form submission (no EmailJS config):', sanitizedData);
+        await new Promise((resolve) => setTimeout(resolve, 800));
+      }
 
       setSubmitSuccess(true);
       // Reset form after successful submission
@@ -658,7 +676,7 @@ const ContactSection = () => {
                     </li>
                     <li className="flex items-center space-x-2">
                       <span className="text-[#22c55e] text-lg">✓</span>
-                      <span>100+ successful projects delivered</span>
+                      <span>78+ successful projects delivered</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <span className="text-[#22c55e] text-lg">✓</span>

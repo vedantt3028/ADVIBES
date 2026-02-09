@@ -37,11 +37,11 @@ const About = () => {
                 </p>
                 <div className="grid grid-cols-2 gap-6 mt-8">
                   <div className="text-center">
-                    <div className="text-3xl font-display font-bold gradient-text mb-2">50+</div>
+                    <div className="text-3xl font-display font-bold gradient-text mb-2">35+</div>
                     <div className="text-sm text-muted-foreground">Happy Clients</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-display font-bold gradient-text mb-2">100+</div>
+                    <div className="text-3xl font-display font-bold gradient-text mb-2">78+</div>
                     <div className="text-sm text-muted-foreground">Projects Done</div>
                   </div>
                 </div>

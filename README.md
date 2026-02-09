@@ -50,6 +50,21 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
+## Contact form – receive submissions by email
+
+Form submissions are sent to your email using [EmailJS](https://www.emailjs.com) (free tier: 200 emails/month).
+
+1. Sign up at **https://www.emailjs.com** and add an email service (e.g. Gmail).
+2. Create an **email template** and use these variables in the body: `{{first_name}}`, `{{last_name}}`, `{{email}}`, `{{phone}}`, `{{company}}`, `{{service}}`, `{{message}}`.
+3. From the EmailJS dashboard, copy your **Service ID**, **Template ID**, and **Public Key** from the form’s endpoint (e.g. `https://formspree.io/f/xyzabc` → form ID is `xyzabc`).
+4. In the project root, create a file named **`.env`** (copy from `.env.example` if needed) and add:
+   ```bash
+   VITE_EMAILJS_SERVICE_ID=your_service_id
+   VITE_EMAILJS_TEMPLATE_ID=your_template_id
+   VITE_EMAILJS_PUBLIC_KEY=your_public_key
+   ```
+5. Restart the dev server (`npm run dev`). When someone submits the contact form, you’ll receive an email with their details.
+
 ## What technologies are used for this project?
 
 This project is built with:
