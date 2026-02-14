@@ -12,7 +12,7 @@ import Footer from '@/components/Footer';
 // Homepage section order (do not change): Hero → Client Logos → Services → About → Portfolio → Behind the Build → Testimonials → Contact
 const Index = () => {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black overflow-x-hidden w-full">
       <Navbar />
       <main>
         <HeroSection />

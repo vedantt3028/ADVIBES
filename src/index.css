@@ -113,9 +113,11 @@
     @apply border-border;
   }
 
-  /* Smooth Scroll Behavior */
+  /* Smooth Scroll Behavior + prevent horizontal scroll on mobile */
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100%;
   }
 
   /* Black Background */
@@ -124,6 +126,8 @@
     background: #000000;
     min-height: 100vh;
     position: relative;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   /* Editorial Typography Hierarchy */
