@@ -82,10 +82,10 @@ const HeroSection = () => {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="font-outfit font-semibold leading-tight mb-4 sm:mb-6"
           >
-            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-7xl uppercase">
               Giving your Brand
             </span>
-            <span className="block text-xl sm:text-2xl md:text-3xl lg:text-5xl mt-1 sm:mt-2">
+            <span className="block text-xl sm:text-2xl md:text-3xl lg:text-5xl mt-1 sm:mt-2 italic uppercase">
               a <span className="gradient-text">Beat</span> of its own
             </span>
           </motion.h1>
