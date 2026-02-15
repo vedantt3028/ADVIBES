@@ -12,7 +12,7 @@ const btsProjects: Array<{
 }> = [
   {
     id: 'kanchan-city',
-    title: 'Kanchan City ADS & BTS',
+    title: 'Kanchan BTS',
     images: ['1.avif', '2.avif', '3.avif', '4.avif', '5.jpg'],
   },
   {

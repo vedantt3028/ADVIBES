@@ -4,33 +4,19 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import AnimatedCounter from '@/components/AnimatedCounter';
 
-// YouTube videos for slideshow
+// YouTube videos for slideshow (unique only)
 const slideshowVideos = [
-  {
-    videoId: 'DS2gsPd-IkQ',
-    title: 'AD~VIBES Marketing Video 1',
-    embedUrl: 'https://www.youtube.com/embed/DS2gsPd-IkQ?autoplay=1&mute=1&loop=1&playlist=DS2gsPd-IkQ&controls=0&modestbranding=1&rel=0'
-  },
-  {
-    videoId: 'eVdCPNcwnfs',
-    title: 'AD~VIBES Marketing Video 2',
-    embedUrl: 'https://www.youtube.com/embed/eVdCPNcwnfs?autoplay=1&mute=1&loop=1&playlist=eVdCPNcwnfs&controls=0&modestbranding=1&rel=0'
-  },
-  {
-    videoId: 'rg03Nmslbr8',
-    title: 'AD~VIBES Marketing Video 3',
-    embedUrl: 'https://www.youtube.com/embed/rg03Nmslbr8?autoplay=1&mute=1&loop=1&playlist=rg03Nmslbr8&controls=0&modestbranding=1&rel=0'
-  },
-  {
-    videoId: 'IjFzZBgw-NM',
-    title: 'AD~VIBES Marketing Video 4',
-    embedUrl: 'https://www.youtube.com/embed/IjFzZBgw-NM?autoplay=1&mute=1&loop=1&playlist=IjFzZBgw-NM&controls=0&modestbranding=1&rel=0'
-  },
-  {
-    videoId: 'Nsj8yxf4TWE',
-    title: 'AD~VIBES Marketing Video 5',
-    embedUrl: 'https://www.youtube.com/embed/Nsj8yxf4TWE?autoplay=1&mute=1&loop=1&playlist=Nsj8yxf4TWE&controls=0&modestbranding=1&rel=0'
-  }
+  { videoId: 'Xf73E97XlBI', title: 'AD~VIBES Marketing Video 1', embedUrl: 'https://www.youtube.com/embed/Xf73E97XlBI?autoplay=1&mute=1&loop=1&playlist=Xf73E97XlBI&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'IjFzZBgw-NM', title: 'AD~VIBES Marketing Video 2', embedUrl: 'https://www.youtube.com/embed/IjFzZBgw-NM?autoplay=1&mute=1&loop=1&playlist=IjFzZBgw-NM&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'Nn8JJinFd0Q', title: 'AD~VIBES Marketing Video 3', embedUrl: 'https://www.youtube.com/embed/Nn8JJinFd0Q?autoplay=1&mute=1&loop=1&playlist=Nn8JJinFd0Q&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'UrkRj6O18bU', title: 'AD~VIBES Marketing Video 4', embedUrl: 'https://www.youtube.com/embed/UrkRj6O18bU?autoplay=1&mute=1&loop=1&playlist=UrkRj6O18bU&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'wrYAl9_Kjo8', title: 'AD~VIBES Marketing Video 5', embedUrl: 'https://www.youtube.com/embed/wrYAl9_Kjo8?autoplay=1&mute=1&loop=1&playlist=wrYAl9_Kjo8&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'NXluB57O8Uo', title: 'AD~VIBES Marketing Video 6', embedUrl: 'https://www.youtube.com/embed/NXluB57O8Uo?autoplay=1&mute=1&loop=1&playlist=NXluB57O8Uo&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'RAlEHYWH038', title: 'AD~VIBES Marketing Video 7', embedUrl: 'https://www.youtube.com/embed/RAlEHYWH038?autoplay=1&mute=1&loop=1&playlist=RAlEHYWH038&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'UZQgz535zjg', title: 'AD~VIBES Marketing Video 8', embedUrl: 'https://www.youtube.com/embed/UZQgz535zjg?autoplay=1&mute=1&loop=1&playlist=UZQgz535zjg&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'mAE1rb3LdXU', title: 'AD~VIBES Marketing Video 9', embedUrl: 'https://www.youtube.com/embed/mAE1rb3LdXU?autoplay=1&mute=1&loop=1&playlist=mAE1rb3LdXU&controls=0&modestbranding=1&rel=0' },
+  { videoId: '-z39IxThO0w', title: 'AD~VIBES Marketing Video 10', embedUrl: 'https://www.youtube.com/embed/-z39IxThO0w?autoplay=1&mute=1&loop=1&playlist=-z39IxThO0w&controls=0&modestbranding=1&rel=0' },
+  { videoId: 'w4u56oxGFac', title: 'AD~VIBES Marketing Video 11', embedUrl: 'https://www.youtube.com/embed/w4u56oxGFac?autoplay=1&mute=1&loop=1&playlist=w4u56oxGFac&controls=0&modestbranding=1&rel=0' },
 ];
 
 const HeroSection = () => {
@@ -94,11 +80,14 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-bold leading-tight mb-4 sm:mb-6"
+            className="font-outfit font-semibold leading-tight mb-4 sm:mb-6"
           >
-            Giving your Brand a{' '}
-            <span className="gradient-text">Beat</span>{' '}
-            of its own
+            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
+              Giving your Brand
+            </span>
+            <span className="block text-xl sm:text-2xl md:text-3xl lg:text-5xl mt-1 sm:mt-2">
+              a <span className="gradient-text">Beat</span> of its own
+            </span>
           </motion.h1>
 
           <motion.p

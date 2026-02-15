@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const portfolioVideos = [
   {
@@ -41,6 +43,8 @@ const portfolioVideos = [
 ];
 
 const PortfolioSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="portfolio" className="py-20 bg-black">
       <div className="container mx-auto px-6">
@@ -91,6 +95,23 @@ const PortfolioSection = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* See More - link to full portfolio page */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-center mt-10"
+        >
+          <Button
+            variant="outline"
+            className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 px-8 py-6 text-base"
+            onClick={() => navigate('/portfolio')}
+          >
+            See More
+          </Button>
+        </motion.div>
 
         {/* CTA */}
         <motion.div

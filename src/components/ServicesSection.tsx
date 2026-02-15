@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import AnimatedCounter from '@/components/AnimatedCounter';
+import { Button } from '@/components/ui/button';
+import { services } from '@/lib/services';
 
 const ServicesSection = () => {
   const navigate = useNavigate();
@@ -9,56 +11,9 @@ const ServicesSection = () => {
     navigate('/contact');
   };
 
-  const services = [
-    {
-      icon: '📺',
-      title: 'Ad Films',
-      description: 'Engaging advertisements that amplify your message and drive action from your target audience.',
-      features: ['Creative Concepts', 'High Production Value', 'Strategic Messaging']
-    },
-    {
-      icon: '📱',
-      title: 'Video Marketing Reels',
-      description: 'Eye-catching reels for social media impact that boost engagement and brand visibility.',
-      features: ['Social Media Optimization', 'Trending Content', 'Viral Potential']
-    },
-    {
-      icon: '📸',
-      title: 'Photography',
-      description: 'High-quality brand and product images that showcase your offerings in the best possible light.',
-      features: ['Product Photography', 'Corporate Events', 'Brand Photography']
-    },
-    {
-      icon: '✨',
-      title: 'Motion Design',
-      description: 'Animated visuals that captivate and bring your content to life with dynamic motion graphics.',
-      features: ['2D Animation', 'Motion Graphics', 'Visual Effects']
-    },
-    {
-      icon: '🎤',
-      title: 'Corporate Interviews',
-      description: 'Insightful interviews that humanize your brand and build trust with your audience.',
-      features: ['Executive Interviews', 'Employee Stories', 'Customer Testimonials']
-    },
-    {
-      icon: '🎬',
-      title: 'Corporate Documentaries',
-      description: 'Showcase your brand story and achievements through compelling documentary-style videos that connect with your audience.',
-      features: ['Brand Storytelling', 'Company Culture', 'Achievement Highlights']
-    },
-    {
-      icon: '🎞️',
-      title: 'Short Films',
-      description: 'Cinematic short-form storytelling that captures emotions and delivers powerful narratives for brands and festivals.',
-      features: ['Narrative Storytelling', 'Festival Ready', 'Brand Films']
-    },
-    {
-      icon: '📽️',
-      title: 'Web Series',
-      description: 'Engaging episodic content that keeps your audience hooked and builds lasting connection with your brand story.',
-      features: ['Episodic Content', 'Series Production', 'Digital Storytelling']
-    }
-  ];
+  const handleSeeWorks = (slug: string) => {
+    navigate(`/works/${slug}`);
+  };
 
   const stats = [
     { number: 35, suffix: '+', label: 'Happy Clients' },
@@ -151,9 +106,21 @@ const ServicesSection = () => {
                 </h3>
 
                 {/* Description */}
-                <p className="text-muted-foreground mb-6 leading-relaxed">
+                <p className="text-muted-foreground mb-4 leading-relaxed">
                   {service.description}
                 </p>
+
+                {/* See Works button */}
+                <div className="mb-6">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                    onClick={() => handleSeeWorks(service.slug)}
+                  >
+                    See Works
+                  </Button>
+                </div>
 
                 {/* Features */}
                 <ul className="space-y-2">
@@ -166,7 +133,7 @@ const ServicesSection = () => {
                 </ul>
 
                 {/* Hover Effect Overlay */}
-                <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-glass"></div>
+                <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-glass pointer-events-none"></div>
               </div>
             </motion.div>
           ))}

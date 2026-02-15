@@ -7,7 +7,7 @@ export const contactInfo = {
   email: 'tejasramapawar@gmail.com',
   phone: '8605816066 / 7030929651',
   whatsapp: '918605816066', // WhatsApp number with country code (91 for India)
-  businessHours: 'Mon – Fri: 10:00 AM – 07:00 PM',
+  businessHours: 'Mon - Sat: 10:00 AM – 07:00 PM',
   primaryCity: 'Pune, Maharashtra',
 };
 

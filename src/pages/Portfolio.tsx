@@ -3,7 +3,25 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { portfolioVideos } from '@/components/PortfolioSection';
+
+// Main portfolio page only: full list (user-provided 11 + unique from hero/home portfolio)
+const fullPortfolioVideos = [
+  { id: 1, title: '', videoId: 'Xf73E97XlBI', gradient: 'from-gray-900 to-gray-800' },
+  { id: 2, title: '', videoId: 'IjFzZBgw-NM', gradient: 'from-gray-800 to-gray-900' },
+  { id: 3, title: '', videoId: 'Nn8JJinFd0Q', gradient: 'from-gray-900 to-gray-800' },
+  { id: 4, title: '', videoId: 'UrkRj6O18bU', gradient: 'from-gray-800 to-gray-900' },
+  { id: 5, title: '', videoId: 'wrYAl9_Kjo8', gradient: 'from-gray-900 to-gray-800' },
+  { id: 6, title: '', videoId: 'NXluB57O8Uo', gradient: 'from-gray-800 to-gray-900' },
+  { id: 7, title: '', videoId: 'RAlEHYWH038', gradient: 'from-gray-900 to-gray-800' },
+  { id: 8, title: '', videoId: 'UZQgz535zjg', gradient: 'from-gray-800 to-gray-900' },
+  { id: 9, title: '', videoId: 'mAE1rb3LdXU', gradient: 'from-gray-900 to-gray-800' },
+  { id: 10, title: '', videoId: '-z39IxThO0w', gradient: 'from-gray-800 to-gray-900' },
+  { id: 11, title: '', videoId: 'w4u56oxGFac', gradient: 'from-gray-900 to-gray-800' },
+  { id: 12, title: 'Amruta Khanvilkar Ad', videoId: 'DS2gsPd-IkQ', gradient: 'from-gray-800 to-gray-900' },
+  { id: 13, title: 'Island of Bliss', videoId: 'eVdCPNcwnfs', gradient: 'from-gray-900 to-gray-800' },
+  { id: 14, title: 'Samrat Atta', videoId: 'sJbm9pjjA74', gradient: 'from-gray-800 to-gray-900' },
+  { id: 15, title: 'Venkatesh Buildcon', videoId: 'Nsj8yxf4TWE', gradient: 'from-gray-900 to-gray-800' },
+];
 
 const Portfolio = () => {
   useEffect(() => {
@@ -27,7 +45,7 @@ const Portfolio = () => {
           {/* Portfolio Videos */}
           <div className="container mx-auto px-6 pb-16">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {portfolioVideos.map((project, index) => (
+              {fullPortfolioVideos.map((project, index) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 30 }}
@@ -47,11 +65,13 @@ const Portfolio = () => {
                         className="w-full h-full"
                       />
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-display font-bold group-hover:text-white transition-colors duration-300">
-                        {project.title}
-                      </h3>
-                    </div>
+                    {project.title ? (
+                      <div className="p-6">
+                        <h3 className="text-xl font-display font-bold group-hover:text-white transition-colors duration-300">
+                          {project.title}
+                        </h3>
+                      </div>
+                    ) : null}
                   </div>
                 </motion.div>
               ))}

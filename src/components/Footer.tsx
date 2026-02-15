@@ -80,7 +80,7 @@ const Footer = () => {
                 AD~VIBES Media House
               </h2>
               <p className="text-muted-foreground mt-2 max-w-2xl">
-                Creative production and performance marketing to elevate your brand with storytelling, motion, and measurable growth.
+                Creative Video Production to elevate your brand presence in the market.
               </p>
             </div>
           </div>
